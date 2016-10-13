@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.hit.commission.po.Gunsmith" table="gunsmith"
+		catalog="commissiondb">
+		<id name="gunsmithID" type="int">
+			<column name="gunsmithID" />
+		</id>
+		<property name="password" type="string">
+			<column name="password" length="100" />
+		</property>
+		<property name="name" type="string">
+			<column name="name" length="45" />
+		</property>
+	</class>
+</hibernate-mapping>

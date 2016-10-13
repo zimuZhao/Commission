@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.hit.commission.po.Commission" table="commission"
+		catalog="commissiondb">
+		<id name="commissionID" type="int">
+			<column name="idcommission" />
+			<generator class="increment" />
+		</id>
+		<property name="salesmanID" type="int">
+			<column name="salesmanID" />
+		</property>
+		<property name="salesDate" type="date">
+			<column name="salesDate" />
+		</property>
+		<property name="locksum" type="int">
+			<column name="locksum" />
+		</property>
+		<property name="stocksum" type="int">
+			<column name="stocksum" />
+		</property>
+		<property name="barrelsum" type="int">
+			<column name="barrelsum" />
+		</property>
+		<property name="totalCommission" type="float">
+			<column name="totalCommission" />
+		</property>
+		<property name="totalPrice" type="float">
+			<column name="totalPrice" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.hit.commission.po.Salesrecord" table="sales"
+		catalog="commissiondb">
+		<id name="salesID" type="int">
+			<column name="idsales" />
+			<generator class="increment" />
+		</id>
+		<property name="locksnum" type="int">
+			<column name="locksnum" />
+		</property>
+		<property name="stocksnum" type="int">
+			<column name="stocksnum" />
+		</property>
+		<property name="barrelsnum" type="int">
+			<column name="barrelsnum" />
+		</property>
+		<property name="salesmanID" type="int">
+			<column name="salesmanID" />
+		</property>
+		<property name="saleDate" type="date">
+			<column name="date"/>
+		</property>
+	</class>
+</hibernate-mapping>
