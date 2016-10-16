@@ -1,13 +1,75 @@
 package cn.hit.commission.po;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Salesman {
 	private int salesmanID;
 	private String password;
-	private String name, email, mobile;
+	private String name;
+	private String email;
+	private String mobile;
+	private Date createTime;
+	private Date updateTime;
+	private String address;
+	private String linkman;
+	private String description;
+	private int deleteFlag;
 	Set salesSet = new HashSet();
+	
+	public String getLinkman() {
+		return linkman;
+	}
+
+	public void setLinkman(String linkman) {
+		this.linkman = linkman;
+	}
+
+	
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getDeleteFlag() {
+		return deleteFlag;
+	}
+
+	public void setDeleteFlag(int deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
+
+
 
 	public Salesman() {
 		salesmanID = 0;

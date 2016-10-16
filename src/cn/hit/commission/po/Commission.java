@@ -1,22 +1,30 @@
 package cn.hit.commission.po;
 
 import java.util.Date;
-
+/**
+ * 佣金
+ * 
+ * @author Xueting Ou
+ *
+ */
 public class Commission {
 	private int commissionID;
-	private int salesmanID;
+	private Salesman salesmanID;
 	private Date salesDate;
-	private int locksum, stocksum, barrelsum;
-	private float totalCommission, totalPrice;
+	private int locksum;
+	private int stocksum;
+	private int barrelsum;
+	private double totalCommission;
+	private double totalPrice;
+	
+	private Date createTime;
+	private Date time;
+	private double firstcom;
+	private double secondcom;
+	private double thirdcom;
+	private int deleteFlag;
 
-	public float getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(float totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-
+	
 	public int getCommissionID() {
 		return commissionID;
 	}
@@ -25,12 +33,62 @@ public class Commission {
 		this.commissionID = commissionID;
 	}
 
-	public int getSalesmanID() {
+	
+
+	public Salesman getSalesmanID() {
 		return salesmanID;
 	}
 
-	public void setSalesmanID(int salesmanID) {
+	public void setSalesmanID(Salesman salesmanID) {
 		this.salesmanID = salesmanID;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
+
+	public double getFirstcom() {
+		return firstcom;
+	}
+
+	public void setFirstcom(double firstcom) {
+		this.firstcom = firstcom;
+	}
+
+	public double getSecondcom() {
+		return secondcom;
+	}
+
+	public void setSecondcom(double secondcom) {
+		this.secondcom = secondcom;
+	}
+
+	public double getThirdcom() {
+		return thirdcom;
+	}
+
+	public void setThirdcom(double thirdcom) {
+		this.thirdcom = thirdcom;
+	}
+
+	public int getDeleteFlag() {
+		return deleteFlag;
+	}
+
+	public void setDeleteFlag(int deleteFlag) {
+		this.deleteFlag = deleteFlag;
 	}
 
 	public Date getSalesDate() {
@@ -65,12 +123,22 @@ public class Commission {
 		this.barrelsum = barrelsum;
 	}
 
-	public float getTotalCommission() {
+	public double getTotalCommission() {
 		return totalCommission;
 	}
 
-	public void setTotalCommission(float totalCommission) {
+	public void setTotalCommission(double totalCommission) {
 		this.totalCommission = totalCommission;
 	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	
 
 }

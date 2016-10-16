@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.hit.commission.po.Products" table="products"
+		catalog="commission_db">
+		<id name="productsID" type="int">
+			<column name="productsID" />
+		</id>
+		<property name="name" type="string">
+			<column name="name" length="50" />
+		</property>
+		<property name="price" type="double">
+			<column name="price"  />
+		</property>
+		<property name="stock" type="int">
+			<column name="stock"/>
+		</property>
+		<property name="description" type="string">
+			<column name="description" length="50" />
+		</property>
+		<property name="deleteFlag" type="int">
+			<column name="deleteFlag"/>
+		</property>
+	</class>
+</hibernate-mapping>

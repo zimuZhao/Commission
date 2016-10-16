@@ -11,7 +11,6 @@
 		http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-
 	<!--数据库配置 -->
 	<bean id="baseDAO" class="cn.hit.commission.dao.BaseHibernateDAO">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -31,6 +30,7 @@
 				<value>cn/hit/commission/po/Gunsmith.hbm.xml</value>
 				<value>cn/hit/commission/po/Salesrecord.hbm.xml</value>
 				<value>cn/hit/commission/po/Commission.hbm.xml</value>
+				<value>cn/hit/commission/po/Products.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -38,7 +38,7 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306/commissiondb" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/commission_db" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 	</bean>
@@ -65,15 +65,32 @@
 		<aop:advisor pointcut-ref="allServiceMethod" advice-ref="txAdvice" />
 	</aop:config>
 
-	<!--lzm -->
+	<!--DAO -->
 	<bean id="userDAO" class="cn.hit.commission.dao.UserDAO" parent="baseDAO" />
+
+	<!-- Service -->
 	<bean id="userService" class="cn.hit.commission.service.UserService">
 		<property name="dao" ref="userDAO" />
 	</bean>
-	<bean id="userAction" class="cn.hit.commission.action.UserAction">
+	<bean id="loginService" class="cn.hit.commission.service.LoginService">
+		<property name="dao" ref="userDAO" />
+	</bean>
+
+	<!-- Action 默认是单例形式，应设置为多例形式-->
+	<bean id="loginAction" class="cn.hit.commission.action.LoginAction"
+		scope="prototype">
+		<property name="service" ref="loginService"></property>
+	</bean>
+	<bean id="bossAction" class="cn.hit.commission.action.BossAction"
+		scope="prototype">
+		<property name="service" ref="userService"></property>
+	</bean>
+	<bean id="userAction" class="cn.hit.commission.action.UserAction"
+		scope="prototype">
 		<property name="ser" ref="userService" />
 	</bean>
-	<bean id="saleAction" class="cn.hit.commission.action.SaleAction">
+	<bean id="saleAction" class="cn.hit.commission.action.SaleAction"
+		scope="prototype">
 		<property name="ser" ref="userService" />
 	</bean>
 

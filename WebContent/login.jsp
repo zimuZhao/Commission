@@ -37,8 +37,7 @@
 
 <body class="login-img3-body">
 	<div class="container">
-		<form name="login" class="login-form" action="loginAction"
-			method="post">
+		<form name="login" class="login-form" action="accessAction" method="post">
 			<div class="login-wrap">
 				<p class="login-img">
 					<i class="icon_lock_alt"></i>

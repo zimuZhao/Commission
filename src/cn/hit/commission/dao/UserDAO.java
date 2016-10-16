@@ -15,7 +15,6 @@ public class UserDAO extends BaseHibernateDAO implements IUserDAO{
 	
 	@Override
 	public Salesman findBySalesID(int salesmanID) {
-		// TODO Auto-generated method stub
 		Transaction tran = null;
 		Session session = null;
 		try {

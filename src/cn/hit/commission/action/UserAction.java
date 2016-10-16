@@ -116,48 +116,29 @@ public class UserAction extends ActionSupport {
 	public void setSer(IUserService ser) {
 		this.ser = ser;
 	}
-
-	public String login() {
-		//销售员登陆验证
-		if (type.equals("salesman")) {
-			//在数据库中查找该账户
-			Salesman loginSucc = ser.salesmanLogin(loginID, password);
-			salesman = loginSucc;
-			//若存在该用户，则获取用户当月的销售信息
-			if (salesman != null) {
-				lists = ser.curMonthSaleRecord(loginID);
-				Commission tmp = ser.computeCommission(salesman, new Date());
-				float locksprice = ser.computeLocksPrice(lists);
-				float stocksprice = ser.computeStocksPrice(lists);
-				float barrelsprice = ser.computeBarrelsPrice(lists);
-				ActionContext.getContext().getSession().put("curSalesman", salesman);
-				ActionContext.getContext().getSession().put("sumPrice", locksprice + stocksprice + barrelsprice);
-				ActionContext.getContext().getSession().put("locksPrice", locksprice);
-				ActionContext.getContext().getSession().put("stocksPrice", stocksprice);
-				ActionContext.getContext().getSession().put("barrelsPrice", barrelsprice);
-				ActionContext.getContext().getSession().put("locknum", tmp.getLocksum());
-				ActionContext.getContext().getSession().put("stocknum", tmp.getStocksum());
-				ActionContext.getContext().getSession().put("barrelnum", tmp.getBarrelsum());
-				return "salesLogSuccess";
-			} else {
-				return "logFailed";
-			}
-		  //供货商登陆验证
-		} else if (type.equals("gunsmith")) {
-			Gunsmith loginSucc = ser.gunsmithLogin(loginID, password);
-			gunsmith = loginSucc;
-			if (gunsmith != null) {
-				ActionContext.getContext().getSession().put("curGunsmith", gunsmith);
-				salesmanLists = ser.findAllSalesman();
-				ActionContext.getContext().getSession().put("salesmanLists", salesmanLists);
-				return "gunLogSuccess";
-			} else {
-
-				return "logFailed";
-			}
-		} else {
-			return "logFailed";
-		}
+	
+	// 获取销售员信息概要(Index)
+	public String userSaleBriefInfo(){
+		ActionContext ctx = ActionContext.getContext();
+		// 计算当前月的销售信息
+		Salesman user = (Salesman)ctx.getSession().get("user");
+		lists = ser.curMonthSaleRecord(user.getSalesmanID());
+		Commission tmp = ser.computeCommission(user, new Date());
+		float locksprice = ser.computeLocksPrice(lists);
+		float stocksprice = ser.computeStocksPrice(lists);
+		float barrelsprice = ser.computeBarrelsPrice(lists);
+		// 销售总额
+		ctx.getSession().put("sumPrice", locksprice + stocksprice + barrelsprice);
+		// 各组件销售额
+		ctx.getSession().put("locksPrice", locksprice);
+		ctx.getSession().put("stocksPrice", stocksprice);
+		ctx.getSession().put("barrelsPrice", barrelsprice);
+		// 各组件销售量
+		ctx.getSession().put("locknum", tmp.getLocksum());
+		ctx.getSession().put("stocknum", tmp.getStocksum());
+		ctx.getSession().put("barrelnum", tmp.getBarrelsum());
+		
+		return "success";
 	}
 
 	//供货商查询本月销售及佣金报表

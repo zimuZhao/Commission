@@ -82,7 +82,7 @@ public class SaleAction extends ActionSupport {
 			return "fail";
 		}
 		record.setSaleDate(new Date());
-		record.setSalesmanID(salesman.getSalesmanID());
+		record.setSalesmanID(salesman);
 		record.setLocksnum(locksnum);
 		record.setStocksnum(stocksnum);
 		record.setBarrelsnum(barrelsnum);

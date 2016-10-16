@@ -207,7 +207,7 @@ public class UserService implements IUserService {
 		commission.setBarrelsum(barrelsnum);
 		commission.setTotalCommission(totalCommission);
 		commission.setTotalPrice(totalNumDollar);
-		commission.setSalesmanID(man.getSalesmanID());
+		commission.setSalesmanID(man);
 		commission.setSalesDate(date);
 
 		return commission;

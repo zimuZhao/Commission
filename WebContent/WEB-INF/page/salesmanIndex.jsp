@@ -64,20 +64,10 @@
 			<!-- notificatoin dropdown start-->
 			<ul class="nav pull-right top-menu">
 				<!-- user login dropdown start-->
-				<%
-					try {
-				%>
-				<jsp:useBean id="curSalesman" scope="session"
-					type="cn.hit.commission.po.Salesman" />
 				<li class="dropdown"><a data-toggle="dropdown"
-					class="dropdown-toggle" href="#"> <span class="username"><%=curSalesman.getName()%></span>
+					class="dropdown-toggle" href="#"> <span class="username">${sessionScope.user.name}</span>
 						<b class="caret"></b>
 				</a></li>
-				<%
-					} catch (Exception e) {
-						response.sendRedirect("login.jsp");
-					}
-				%>
 				<!-- user login dropdown end -->
 			</ul>
 			<!-- notificatoin dropdown end-->
