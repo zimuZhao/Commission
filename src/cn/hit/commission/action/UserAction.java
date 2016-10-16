@@ -1,14 +1,14 @@
 package cn.hit.commission.action;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import cn.hit.commission.po.Commission;
-import cn.hit.commission.po.Gunsmith;
 import cn.hit.commission.po.Salesman;
 import cn.hit.commission.po.Salesrecord;
 import cn.hit.commission.service.IUserService;
@@ -23,15 +23,39 @@ public class UserAction extends ActionSupport {
 	private String type;
 	private String password;
 	private IUserService ser;
-	private Salesman salesman;
-	private Gunsmith gunsmith;
+	private Salesman newSaleman;
+	private String newPassword;
 
 	private List<Salesrecord> lists = null;
-	private List<Salesman> salesmanLists = null;
 	private List<Commission> commissionLists = null;
 	private List<Commission> historyLists = null;
+
+	private Map<String, Object> jsonResult;
+
 	
-	private String searchDate;
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+	public Salesman getNewSaleman() {
+		return newSaleman;
+	}
+
+	public void setNewSaleman(Salesman newSaleman) {
+		this.newSaleman = newSaleman;
+	}
+
+	public Map<String, Object> getJsonResult() {
+		return jsonResult;
+	}
+
+	public void setJsonResult(Map<String, Object> jsonResult) {
+		this.jsonResult = jsonResult;
+	}
 
 	public List<Commission> getHistoryLists() {
 		return historyLists;
@@ -41,24 +65,12 @@ public class UserAction extends ActionSupport {
 		this.historyLists = historyLists;
 	}
 
-	public void setSearchDate(String searchDate) {
-		this.searchDate = searchDate;
-	}
-
 	public List<Commission> getCommissionLists() {
 		return commissionLists;
 	}
 
 	public void setCommissionLists(List<Commission> commissionLists) {
 		this.commissionLists = commissionLists;
-	}
-
-	public List<Salesman> getSalesmanLists() {
-		return salesmanLists;
-	}
-
-	public void setSalesmanLists(List<Salesman> salesmanLists) {
-		this.salesmanLists = salesmanLists;
 	}
 
 	public String getType() {
@@ -75,22 +87,6 @@ public class UserAction extends ActionSupport {
 
 	public void setLists(List<Salesrecord> lists) {
 		this.lists = lists;
-	}
-
-	public Gunsmith getGunsmith() {
-		return gunsmith;
-	}
-
-	public void setGunsmith(Gunsmith gunsmith) {
-		this.gunsmith = gunsmith;
-	}
-
-	public Salesman getSalesman() {
-		return salesman;
-	}
-
-	public void setSalesman(Salesman salesman) {
-		this.salesman = salesman;
 	}
 
 	public int getLoginID() {
@@ -116,12 +112,12 @@ public class UserAction extends ActionSupport {
 	public void setSer(IUserService ser) {
 		this.ser = ser;
 	}
-	
+
 	// 获取销售员信息概要(Index)
-	public String userSaleBriefInfo(){
+	public String userSaleBriefInfo() {
 		ActionContext ctx = ActionContext.getContext();
 		// 计算当前月的销售信息
-		Salesman user = (Salesman)ctx.getSession().get("user");
+		Salesman user = (Salesman) ctx.getSession().get("user");
 		lists = ser.curMonthSaleRecord(user.getSalesmanID());
 		Commission tmp = ser.computeCommission(user, new Date());
 		float locksprice = ser.computeLocksPrice(lists);
@@ -137,36 +133,34 @@ public class UserAction extends ActionSupport {
 		ctx.getSession().put("locknum", tmp.getLocksum());
 		ctx.getSession().put("stocknum", tmp.getStocksum());
 		ctx.getSession().put("barrelnum", tmp.getBarrelsum());
-		
+
 		return "success";
 	}
 
-	//供货商查询本月销售及佣金报表
-	public String searchMonthReport() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
-		String tmp = dateFormat.format(new Date());
-		commissionLists = ser.searchCommission(-1, tmp);
-		if (commissionLists.size() > 0) {
-			this.clearErrorsAndMessages();
-			return "success";
-		} else {
-			this.clearErrorsAndMessages();
-			this.addActionMessage("<script>alert('本月还未有销售员结算！');</script>");
-			return "fail";
-		}
+	// 更新销售员个人基本信息
+	public String updateUserInfo() {
+		
+		return "success";
 	}
 	
-	//供货商查询历史销售及佣金报表
-	public String searchHistoryReport(){
-		historyLists = ser.searchCommission(-1, searchDate);
-		if (historyLists.size() > 0) {
-			this.clearErrorsAndMessages();
-			return "success";
-		} else {
-			this.clearErrorsAndMessages();
-			this.addActionMessage("<script>alert('该月没有销售及佣金记录！');</script>");
-			return "fail";
+	// 更新销售员登陆密码
+	public String updateUserPwd(){
+		Map<String, Object> map = new HashMap<String, Object>();
+		ActionContext ctx = ActionContext.getContext();
+		String status = "false";
+		
+		Salesman tmpman = (Salesman)ctx.getSession().get("user");
+		tmpman.setPassword(newPassword);
+		if(newPassword != null && ser.updateUserPwd(tmpman)){
+			status = "true";
+			System.out.println("密码修改成功");
+		}else{
+			System.out.println("密码修改失败");
 		}
+		map.put("status", status);
+
+		jsonResult = map;
+		return "success";
 	}
 
 }

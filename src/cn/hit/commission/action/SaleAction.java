@@ -74,7 +74,8 @@ public class SaleAction extends ActionSupport {
 		Salesrecord record = new Salesrecord();
 		Commission commission = new Commission();
 		boolean saveRecordSucc = true;
-		salesman = (Salesman) ActionContext.getContext().getSession().get("curSalesman");
+		salesman = (Salesman) ActionContext.getContext().getSession().get("user");
+		System.out.println("当前登录的用户为："+salesman.getName());
 		lists = ser.curMonthSaleRecord(salesman.getSalesmanID());
 		if (salesman == null) {
 			this.clearErrorsAndMessages();

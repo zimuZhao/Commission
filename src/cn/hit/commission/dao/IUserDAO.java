@@ -14,5 +14,7 @@ public interface IUserDAO {
 	
 	public boolean save(Salesrecord transientInstance);
 	public boolean saveComRecord(Commission transientInstance);
+	public Salesman updateSalesman(Salesman salesman);
+	public boolean updateUserPwd(Salesman salesman); 
 	
 }

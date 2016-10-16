@@ -11,8 +11,8 @@ import cn.hit.commission.po.Gunsmith;
 import cn.hit.commission.po.Salesman;
 import cn.hit.commission.po.Salesrecord;
 
-public class UserDAO extends BaseHibernateDAO implements IUserDAO{
-	
+public class UserDAO extends BaseHibernateDAO implements IUserDAO {
+
 	@Override
 	public Salesman findBySalesID(int salesmanID) {
 		Transaction tran = null;
@@ -20,7 +20,7 @@ public class UserDAO extends BaseHibernateDAO implements IUserDAO{
 		try {
 			session = getSession();
 			tran = session.beginTransaction();
-			Salesman salesman = (Salesman)session.get(Salesman.class, salesmanID);
+			Salesman salesman = (Salesman) session.get(Salesman.class, salesmanID);
 			tran.commit();
 			return salesman;
 		} catch (RuntimeException re) {
@@ -39,7 +39,7 @@ public class UserDAO extends BaseHibernateDAO implements IUserDAO{
 		try {
 			session = getSession();
 			tran = session.beginTransaction();
-			Gunsmith gunsmith = (Gunsmith)session.get(Gunsmith.class, gunsmithID);
+			Gunsmith gunsmith = (Gunsmith) session.get(Gunsmith.class, gunsmithID);
 			tran.commit();
 			return gunsmith;
 		} catch (RuntimeException re) {
@@ -49,7 +49,7 @@ public class UserDAO extends BaseHibernateDAO implements IUserDAO{
 		}
 		return null;
 	}
-	
+
 	@Override
 	public boolean save(Salesrecord transientInstance) {
 		Transaction tran = null;
@@ -75,8 +75,7 @@ public class UserDAO extends BaseHibernateDAO implements IUserDAO{
 		try {
 			session = getSession();
 			tran = session.beginTransaction();
-			Query queryObject = session
-					.createQuery(hql);
+			Query queryObject = session.createQuery(hql);
 			tran.commit();
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -96,6 +95,53 @@ public class UserDAO extends BaseHibernateDAO implements IUserDAO{
 			session = getSession();
 			tran = session.beginTransaction();
 			session.save(transientInstance);
+			tran.commit();
+			return true;
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			return false;
+		} finally {
+			session.close();
+		}
+	}
+
+	@Override
+	public Salesman updateSalesman(Salesman salesman) {
+		// TODO Auto-generated method stub
+		Transaction tran = null;
+		Session session = null;
+		try {
+			session = getSession();
+			tran = session.beginTransaction();
+			String hql = "update Salesman s set s.name = "+salesman.getName()+
+						 "set s.linkman = "+salesman.getLinkman()+
+						 "set s.email = "+salesman.getEmail()+
+						 "set s.mobile = "+salesman.getMobile()+
+						 "set s.address = "+salesman.getAddress()+
+						 "where s.salesmanID = "+salesman.getSalesmanID();
+			Query queryObject = session.createQuery(hql);
+			Salesman newSalesman = (Salesman)session.get(Salesman.class, salesman.getSalesmanID());
+			tran.commit();
+			return newSalesman;
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			return null;
+		} finally {
+			session.close();
+		}
+	}
+	
+	@Override
+	public boolean updateUserPwd(Salesman salesman) {
+		Transaction tran = null;
+		Session session = null;
+		try {
+			session = getSession();
+			tran = session.beginTransaction();
+			String hql = "update Salesman s set s.password = "+salesman.getPassword()+
+						 "where s.salesmanID = "+salesman.getSalesmanID();
+			Query queryObject = session.createQuery(hql);
+			Salesman newSalesman = (Salesman)session.get(Salesman.class, salesman.getSalesmanID());
 			tran.commit();
 			return true;
 		} catch (RuntimeException re) {

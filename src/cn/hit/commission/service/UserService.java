@@ -256,4 +256,16 @@ public class UserService implements IUserService {
 
 	}
 
+	@Override
+	/**
+	 * 更新销售员登陆密码
+	 */
+	public boolean updateUserPwd(Salesman man) {
+		// TODO Auto-generated method stub
+		boolean flag = dao.updateUserPwd(man);
+		return flag;
+	}
+	
+	
+
 }

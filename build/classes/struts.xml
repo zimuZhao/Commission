@@ -3,7 +3,8 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-	<package name="strutsBean" extends="struts-default" namespace="/">
+	<package name="strutsBean" extends="struts-default,json-default"
+		namespace="/">
 		<!-- 拦截器 -->
 		<interceptors>
 			<interceptor name="authority"
@@ -24,13 +25,18 @@
 			<result name="login" type="redirect">/login.jsp</result>
 		</global-results>
 
-		<!-- ActionList -->
+		<!-- 用户权限控制 Start -->
 		<action name="accessAction" class="loginAction" method="loginValid">
 			<result name="BossSuccess" type="redirectAction">bossInfoBrief</result>
 			<result name="UserSuccess" type="redirectAction">userInfoBrief</result>
 			<result name="LogIllegal">/login.jsp</result>
 			<result name="LogFailed">/WEB-INF/error/loginFail.html</result>
 		</action>
+		<action name="logoutAction" class="loginAction" method="Logout">
+			<result name="success">/login.jsp</result>
+		</action>
+		<!-- 用户权限控制 End -->
+		
 		<action name="userInfoBrief" class="userAction" method="userSaleBriefInfo">
 			<result name="success">/WEB-INF/page/salesmanIndex.jsp</result>
 		</action>
@@ -49,5 +55,39 @@
 			<result name="success">/WEB-INF/page/salesmanIndex.jsp</result>
 			<result name="fail">/WEB-INF/page/salesmanIndex.jsp</result>
 		</action>
+
+		<!-- 更新销售员密码 -->
+		<action name="updateUserPwd" class="userAction" method="updateUserPwd">
+			<result name="success" type="json">
+				<param name="root">jsonResult</param>
+			</result>
+		</action>
+
+		<!-- 老板的相关Action Start -->
+		<!-- 查看今日销售情况 -->
+		<action name="todaySalesInfo" class="bossAction" method="todaySalesInfo">
+			<result name="success" type="json">
+				<param name="root">jsonResult</param>
+			</result>
+		</action>
+		<!-- 查看上月销售情况 -->
+		<action name="lastMonthInfo" class="bossAction" method="lastMonthInfo">
+			<result name="success" type="json">
+				<param name="root">jsonResult</param>
+			</result>
+		</action>
+		<!-- 查看Top8的员工 -->
+		<action name="queryTopUser" class="bossAction" method="topUserList">
+			<result name="success" type="json">
+				<param name="root">jsonResult</param>
+			</result>
+		</action>
+		<!-- 查看Top10的地区 -->
+		<action name="queryTopTownList" class="bossAction" method="topTownList">
+			<result name="success" type="json">
+				<param name="root">jsonResult</param>
+			</result>
+		</action>
+		<!-- 老板的相关Action End -->
 	</package>
 </struts>    
