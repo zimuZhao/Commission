@@ -72,18 +72,21 @@
 	<bean id="userService" class="cn.hit.commission.service.UserService">
 		<property name="dao" ref="userDAO" />
 	</bean>
+	<bean id="bossService" class="cn.hit.commission.service.BossService">
+		<property name="dao" ref="userDAO" />
+	</bean>
 	<bean id="loginService" class="cn.hit.commission.service.LoginService">
 		<property name="dao" ref="userDAO" />
 	</bean>
 
-	<!-- Action 默认是单例形式，应设置为多例形式-->
+	<!-- Action 默认是单例形式，应设置为多例形式 -->
 	<bean id="loginAction" class="cn.hit.commission.action.LoginAction"
 		scope="prototype">
 		<property name="service" ref="loginService"></property>
 	</bean>
 	<bean id="bossAction" class="cn.hit.commission.action.BossAction"
 		scope="prototype">
-		<property name="service" ref="userService"></property>
+		<property name="service" ref="bossService"></property>
 	</bean>
 	<bean id="userAction" class="cn.hit.commission.action.UserAction"
 		scope="prototype">

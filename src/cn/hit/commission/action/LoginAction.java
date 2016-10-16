@@ -103,4 +103,11 @@ public class LoginAction extends ActionSupport {
 			}
 		}
 	}
+	
+	public String Logout(){
+		ActionContext ctx = ActionContext.getContext();
+		ctx.getSession().remove("user");
+		ctx.getSession().remove("boss");
+		return "success";
+	}
 }

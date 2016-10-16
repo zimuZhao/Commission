@@ -80,8 +80,7 @@
 		<div id="sidebar" class="nav-collapse ">
 			<!-- sidebar menu start-->
 			<ul class="sidebar-menu">
-				<li class="active"><a class=""
-					href="#"> <i
+				<li class="active"><a class="" href="#"> <i
 						class="icon_house_alt"></i> <span>Admin Index Page</span>
 				</a></li>
 				<li class="sub-menu"><a class=""
@@ -149,6 +148,14 @@
 					</section>
 				</div>
 			</div>
+
+			<!--date picker start-->
+			<form class="form-inline" action="logoutAction" role="form"
+				method="post">
+				<div class="form-group">
+				</div>
+				<button type="submit" class="btn btn-primary">确认查询</button>
+			</form>
 
 			<br> <br>
 
