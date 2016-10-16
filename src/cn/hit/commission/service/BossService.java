@@ -215,5 +215,36 @@ public class BossService implements IBossService {
 		list = dao.findList(hql);
 		return list;
 	}
+	
+	@Override
+	public List<Salesman> selectSalesmenBypage(int pageSize, int pageNum) {
+		// TODO Auto-generated method stub
+		return dao.selectSalesmenBypage(pageSize, pageNum);
+	}
+
+	@Override
+	public int selectSalesmenCount(int pageSize) {
+		// TODO Auto-generated method stub
+		return dao.selectSalesmenCount(pageSize);
+	}
+
+	@Override
+	public boolean deleteSalesman(int salesmanID) {
+		// TODO Auto-generated method stub
+		return dao.deleteSalesman(salesmanID);
+	}
+
+	@Override
+	public Salesman saveSalesman(Salesman salesman) {
+		// TODO Auto-generated method stub
+		return dao.saveSalesman(salesman);
+	}
+
+	@Override
+	public Salesman updateSalesmanByBoss(Salesman salesman) {
+		// TODO Auto-generated method stub
+		return dao.updateSalesmanByBoss(salesman);
+	}
+
 
 }

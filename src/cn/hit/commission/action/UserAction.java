@@ -32,7 +32,16 @@ public class UserAction extends ActionSupport {
 
 	private Map<String, Object> jsonResult;
 
-	
+	private Salesman salesmanDetail;
+
+	public Salesman getSalesmanDetail() {
+		return salesmanDetail;
+	}
+
+	public void setSalesmanDetail(Salesman salesmanDetail) {
+		this.salesmanDetail = salesmanDetail;
+	}
+
 	public String getNewPassword() {
 		return newPassword;
 	}
@@ -139,26 +148,55 @@ public class UserAction extends ActionSupport {
 
 	// 更新销售员个人基本信息
 	public String updateUserInfo() {
-		
+
 		return "success";
 	}
-	
+
 	// 更新销售员登陆密码
-	public String updateUserPwd(){
+	public String updateUserPwd() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ActionContext ctx = ActionContext.getContext();
 		String status = "false";
-		
-		Salesman tmpman = (Salesman)ctx.getSession().get("user");
+
+		Salesman tmpman = (Salesman) ctx.getSession().get("user");
 		tmpman.setPassword(newPassword);
-		if(newPassword != null && ser.updateUserPwd(tmpman)){
+		if (newPassword != null && ser.updateUserPwd(tmpman)) {
 			status = "true";
 			System.out.println("密码修改成功");
-		}else{
+		} else {
 			System.out.println("密码修改失败");
 		}
 		map.put("status", status);
 
+		jsonResult = map;
+		return "success";
+	}
+
+	// 更新用户信息
+	public String updateSalesmanDetail() {
+		// System.out.print("jsdhjsah");
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		/*
+		 * salesmanDetail = new Salesman(); salesmanDetail.setName("12");
+		 * salesmanDetail.setLinkman("12"); salesmanDetail.setEmail("1234");
+		 * salesmanDetail.setMobile("3434"); salesmanDetail.setAddress("3255");
+		 * salesmanDetail.setSalesmanID(100601);
+		 * salesmanDetail.setUpdateTime(new Date());
+		 */
+
+		Salesman newSalesman = ser.updateSalesmanDetail(salesmanDetail);
+		String status = "";
+		if (newSalesman == null) {
+			status = "false";
+		} else {
+			status = "success";
+			ActionContext ctx = ActionContext.getContext();
+			newSalesman.setPassword("");
+			ctx.getSession().put("user", newSalesman);
+		}
+		map.put("status", status);
+		map.put("result", newSalesman);
 		jsonResult = map;
 		return "success";
 	}

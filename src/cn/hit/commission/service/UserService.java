@@ -266,6 +266,10 @@ public class UserService implements IUserService {
 		return flag;
 	}
 	
-	
+	@Override
+	public Salesman updateSalesmanDetail(Salesman salesman) {
+		// TODO Auto-generated method stub
+		return dao.updateSalesman(salesman);
+	}
 
 }

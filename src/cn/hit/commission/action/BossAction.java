@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.interceptor.ServletRequestAware;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -13,7 +17,7 @@ import cn.hit.commission.po.Salesman;
 import cn.hit.commission.po.Salesrecord;
 import cn.hit.commission.service.IBossService;
 
-public class BossAction extends ActionSupport {
+public class BossAction extends ActionSupport implements ServletRequestAware {
 	private static final long serialVersionUID = 1L;
 
 	private IBossService service;
@@ -23,6 +27,45 @@ public class BossAction extends ActionSupport {
 	private List<Commission> commissionLists = null;
 	private List<Commission> historyLists = null;
 	private Map<String, Object> jsonResult;
+
+	private HttpServletRequest request;
+	private String pageSize;
+	private String pageNum;
+	private String salesmanID;
+	private Salesman salesman;
+
+
+	public String getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(String pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public String getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(String pageNum) {
+		this.pageNum = pageNum;
+	}
+
+	public String getSalesmanID() {
+		return salesmanID;
+	}
+
+	public void setSalesmanID(String salesmanID) {
+		this.salesmanID = salesmanID;
+	}
+
+	public Salesman getSalesman() {
+		return salesman;
+	}
+
+	public void setSalesman(Salesman salesman) {
+		this.salesman = salesman;
+	}
 
 	public IBossService getService() {
 		return service;
@@ -209,5 +252,74 @@ public class BossAction extends ActionSupport {
 		jsonResult = map;
 
 		return "success";
+	}
+
+	// 分页查询销售员
+	public String selectSalesmenByPage() {
+		if ("".equals(pageNum) || pageNum == null) {
+			pageNum = "1";
+		}
+		if ("".equals(pageSize) || pageSize == null) {
+			pageSize = "10";
+		}
+		List<Salesman> salesmanList = service.selectSalesmenBypage(Integer.parseInt(pageSize),
+				Integer.parseInt(pageNum));
+		int pageCount = service.selectSalesmenCount(Integer.parseInt(pageSize));
+		request.setAttribute("salesmanList", salesmanList);
+		request.setAttribute("pageCount", pageCount);
+
+		return "success";
+	}
+
+	// 删除某个销售员
+	public String deleteSalesman() {
+		boolean flag = service.deleteSalesman(0);
+		// boolean flag = service.deleteSalesman(Integer.parseInt(salesmanID));
+		if (flag == true) {
+			return "success";
+		} else {
+			return "fail";
+		}
+
+	}
+
+	// boss添加用户
+	public String addSalesman() {
+		// 测试
+		/*
+		 * salesman = new Salesman(); salesman.setName("100603");
+		 * salesman.setPassword("123"); salesman.setMobile("123111111");
+		 * salesman.setEmail("76769878"); salesman.setLinkman("659709");
+		 * salesman.setAddress("9898878");
+		 */
+		salesman.setDeleteFlag(0);
+		Salesman newsalesman = service.saveSalesman(salesman);
+		if (newsalesman == null) {
+			return "fail";
+		}
+		return "success";
+	}
+
+	// boss更新用户
+	public String updateSalesman() {
+		salesman = new Salesman();
+		// 测试
+		/*
+		 * salesman.setSalesmanID(0); salesman.setName("11");
+		 * salesman.setPassword("11"); salesman.setMobile("11");
+		 * salesman.setEmail("11"); salesman.setLinkman("11");
+		 * salesman.setAddress("11");
+		 */
+		Salesman newsalesman = service.updateSalesmanByBoss(salesman);
+		if (newsalesman == null) {
+			return "fail";
+		}
+		return "success";
+	}
+
+	@Override
+	public void setServletRequest(HttpServletRequest req) {
+		// TODO Auto-generated method stub
+		this.request = req;
 	}
 }

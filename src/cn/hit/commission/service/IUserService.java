@@ -24,6 +24,8 @@ public interface IUserService {
 	public boolean saveSalesrecord(Salesrecord transientInstance);
 	public boolean saveCommission(Commission record);
 	public boolean verifySaleReport(Salesman man, Date date, int locknum, int stocknum, int barrelnum);
-	
 	public boolean updateUserPwd(Salesman man);
+	//更新用户详细信息
+	public Salesman updateSalesmanDetail(Salesman salesman);
+
 }

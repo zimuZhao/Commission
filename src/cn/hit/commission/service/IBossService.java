@@ -13,4 +13,15 @@ public interface IBossService {
 	public List<int[]> queryLastMonth();
 	public List<Map<String,Object>> queryTopUser();
 	public List<Map<String,Object>> queryTopTown();
+	
+	//boss查询所有销售员并分页显示
+	public List<Salesman> selectSalesmenBypage(int pageSize,int pageNum);
+	//查询销售员总页数
+	public int selectSalesmenCount(int pageSize);
+	//boss删除单个用户
+	public boolean deleteSalesman(int salesmanID);
+	//boss添加用户
+	public Salesman saveSalesman(Salesman salesman);
+	//boss更新用户
+	public Salesman updateSalesmanByBoss(Salesman salesman);
 }
