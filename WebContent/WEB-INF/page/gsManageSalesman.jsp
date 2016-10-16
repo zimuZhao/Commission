@@ -46,7 +46,7 @@
         </div>
 
         <!--logo start-->
-        <a href="index.html" class="logo">Gunsmith <span class="lite">Admin</span></a>
+        <a href="index.html" class="logo">Gunsmith <span class="lite">A dmin</span></a>
         <!--logo end-->
 
         <div class="top-nav notification-row">

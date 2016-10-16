@@ -86,7 +86,7 @@
             <ul class="sidebar-menu">
                 <li class="active"><a class=""
                                       href="gunsmithIndex.jsp"> <i
-                        class="icon_house_alt"></i> <span>Admin Index Page</span>
+                        class="icon_house_alt"></i> <span>A dmin Index Page</span>
                 </a></li>
                 <li class="sub-menu"><a class=""
                                         href="http://localhost:8080/Commission/commissionAction.action">

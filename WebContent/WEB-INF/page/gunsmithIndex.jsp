@@ -60,7 +60,7 @@
         </div>
 
         <!--logo start-->
-        <a href="index.html" class="logo">Gunsmith <span class="lite">Admin</span></a>
+        <a href="index.html" class="logo">Gunsmith <span class="lite">A dmin</span></a>
         <!--logo end-->
 
         <div class="top-nav notification-row">
@@ -149,7 +149,6 @@
                 </div>
                 <!--/.col-->
 
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                     <div class="info-box dark-bg">
                         <span class="col-sm-5 font">Barrels</span>
 
