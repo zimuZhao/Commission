@@ -1,6 +1,9 @@
 package cn.hit.commission.action;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +37,24 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 	private String salesmanID;
 	private Salesman salesman;
 
+	private String startTime;
+	private String endTime;
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
 
 	public String getPageSize() {
 		return pageSize;
@@ -254,6 +275,33 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 		return "success";
 	}
 
+	// 供货商查询本月销售及佣金报表
+	public String searchMonthReport() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+		String tmp = dateFormat.format(new Date());
+		commissionLists = service.searchCommission(-1, tmp);
+		if (commissionLists.size() > 0) {
+			this.clearErrorsAndMessages();
+			return "success";
+		} else {
+			this.clearErrorsAndMessages();
+			this.addActionMessage("<script>alert('本月还未有销售员结算！');</script>");
+			return "fail";
+		}
+	}
+
+	// 供货商查询历史销售及佣金报表
+	public String searchHistoryReport() {
+		historyLists = service.searchCommission(-1, searchDate);
+		if (historyLists.size() > 0) {
+			this.clearErrorsAndMessages();
+		} else {
+			this.clearErrorsAndMessages();
+			this.addActionMessage("<script>alert('该月没有销售及佣金记录！');</script>");
+		}
+		return "success";
+	}
+
 	// 分页查询销售员
 	public String selectSalesmenByPage() {
 		if ("".equals(pageNum) || pageNum == null) {
@@ -321,5 +369,59 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 	public void setServletRequest(HttpServletRequest req) {
 		// TODO Auto-generated method stub
 		this.request = req;
+	}
+
+	// 查询历史佣金报表
+	public String queryHistCommission() {
+		if ("".equals(pageNum) || pageNum == null) {
+			pageNum = "1";
+		}
+		if ("".equals(pageSize) || pageSize == null) {
+			pageSize = "10";
+		}
+		startTime = "2016-09-01";
+		endTime = "2016-10-30";
+		int totalPageSize = service.countCommissionPages(Integer.parseInt(pageSize), startTime, endTime);
+		List<Commission> list = service.queryHistCommission(Integer.parseInt(pageSize), Integer.parseInt(pageNum),
+				startTime, endTime);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+		map.put("totalPages", totalPageSize);
+		for(int i = 0; i < list.size(); i++){
+			Map<String, Object> innerMap = new HashMap<String, Object>();
+			Commission commission = list.get(i);
+			innerMap.put("Num", commission.getCommissionID());
+			innerMap.put("Date", commission.getSalesDate());
+			innerMap.put("Saleman", commission.getSalesmanID().getName());
+			innerMap.put("Locks", commission.getLocksum());
+			innerMap.put("Stocks", commission.getStocksum());
+			innerMap.put("Barrels", commission.getBarrelsum());
+			innerMap.put("Sale", commission.getTotalPrice());
+			innerMap.put("basic", commission.getFirstcom());
+			innerMap.put("midCommission", commission.getSecondcom());
+			innerMap.put("highCommision", commission.getThirdcom());
+			innerMap.put("totalCommission", commission.getTotalCommission());
+			mapList.add(innerMap);
+		}
+		
+		map.put("data", mapList);
+		jsonResult = map;
+
+		return "success";
+	}
+	
+	// 按照时间查询地区销售情况（地图显示）
+	public String queryByTownTime(){
+		boolean status = true;
+		startTime = "2016-09-01";
+		endTime = "2016-10-30";
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", status);
+		map.put("result", service.queryByTownTime(startTime, endTime));
+		jsonResult = map;
+		
+		return "success";
 	}
 }

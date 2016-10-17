@@ -18,7 +18,7 @@ public interface IUserService {
 	public Commission computeCommission(Salesman man, Date date);
 	
 	public int searchRecord(int salesmanID);
-	public List<Commission> searchCommission(int salesmanID, String date);
+
 	public List<Salesman> findAllSalesman();
 
 	public boolean saveSalesrecord(Salesrecord transientInstance);

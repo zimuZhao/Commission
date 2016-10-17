@@ -222,21 +222,6 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public List<Commission> searchCommission(int salesmanID, String date) {
-		// TODO Auto-generated method stub
-		List<Commission> list = new ArrayList<Commission>();
-		if (salesmanID == -1) {
-			String hql = "from Commission as c where c.salesDate like '" + date + "%'";
-			list = dao.findList(hql);
-		} else {
-			String hql = "from Commission as c where c.salesmanID = " + salesmanID + " and c.salesDate like '"
-					+ date + "%'";
-			list = dao.findList(hql);
-		}
-		return list;
-	}
-
-	@Override
 	/**
 	 * 验证销售额的有效性
 	 */
@@ -253,7 +238,6 @@ public class UserService implements IUserService {
 		} else {
 			return false;
 		}
-
 	}
 
 	@Override

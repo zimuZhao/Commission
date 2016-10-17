@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.hit.commission.dao.IBossDAO;
 import cn.hit.commission.dao.IUserDAO;
 import cn.hit.commission.po.Commission;
 import cn.hit.commission.po.Salesman;
@@ -16,6 +17,7 @@ import cn.hit.commission.po.Salesrecord;
 
 public class BossService implements IBossService {
 	IUserDAO dao;
+	IBossDAO bossDao;
 
 	public IUserDAO getDao() {
 		return dao;
@@ -23,6 +25,14 @@ public class BossService implements IBossService {
 
 	public void setDao(IUserDAO dao) {
 		this.dao = dao;
+	}
+
+	public IBossDAO getBossDao() {
+		return bossDao;
+	}
+
+	public void setBossDao(IBossDAO bossDao) {
+		this.bossDao = bossDao;
 	}
 
 	@Override
@@ -50,6 +60,24 @@ public class BossService implements IBossService {
 		String hql = "from Salesman as s";
 		lists = dao.findList(hql);
 		return lists;
+	}
+
+	@Override
+	/**
+	 * 查询当月佣金结算信息
+	 */
+	public List<Commission> searchCommission(int salesmanID, String date) {
+		// TODO Auto-generated method stub
+		List<Commission> list = new ArrayList<Commission>();
+		if (salesmanID == -1) {
+			String hql = "from Commission as c where c.salesDate like '" + date + "%'";
+			list = dao.findList(hql);
+		} else {
+			String hql = "from Commission as c where c.salesmanID = " + salesmanID + " and c.salesDate like '" + date
+					+ "%'";
+			list = dao.findList(hql);
+		}
+		return list;
 	}
 
 	@Override
@@ -148,7 +176,7 @@ public class BossService implements IBossService {
 	/*
 	 * 查询排行前8的员工名单
 	 */
-	public List<Map<String,Object>> queryTopUser() {
+	public List<Map<String, Object>> queryTopUser() {
 		List<Commission> list = new ArrayList<Commission>();
 		// 计算当前日期前一天的日期
 		Calendar cal = Calendar.getInstance();
@@ -161,16 +189,16 @@ public class BossService implements IBossService {
 
 		int topNum = 8;
 		if (list.size() < topNum) {
-			topNum = list.size(); 
+			topNum = list.size();
 		}
-		
-		List<Map<String,Object>> jsonList = new ArrayList<Map<String, Object>>();
+
+		List<Map<String, Object>> jsonList = new ArrayList<Map<String, Object>>();
 
 		for (int i = 0; i < topNum; i++) {
 			Commission c = list.get(i);
 			System.out.println(c.getSalesmanID().getName());
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("num", i+1);
+			map.put("num", i + 1);
 			map.put("Salesman", c.getSalesmanID().getName());
 			map.put("LocksNum", c.getLocksum());
 			map.put("StocksNum", c.getStocksum());
@@ -187,20 +215,20 @@ public class BossService implements IBossService {
 	public List<Map<String, Object>> queryTopTown() {
 		List<Map<String, Object>> wrapper = new ArrayList<Map<String, Object>>();
 		Map<String, Object> map = new HashMap<String, Object>();
-		String hql="select s.town,sum(s.num) from Salesrecord s group by s.town order by sum(s.num) desc "; 
+		String hql = "select s.town,sum(s.num) from Salesrecord s group by s.town order by sum(s.num) desc ";
 		List queryList = dao.findList(hql);
-		
-		for(int i = 0; i < queryList.size(); i++){
+
+		for (int i = 0; i < queryList.size(); i++) {
 			System.out.println(queryList.get(i).toString());
 		}
-		
+
 		map.put("data", queryList);
 		wrapper.add(map);
-		
+
 		return wrapper;
 	}
-	
-	public List<Salesrecord> queryLastMonthReport(){
+
+	public List<Salesrecord> queryLastMonthReport() {
 		List<Salesrecord> list = null;
 
 		// 计算当前日期前一天的日期
@@ -215,7 +243,7 @@ public class BossService implements IBossService {
 		list = dao.findList(hql);
 		return list;
 	}
-	
+
 	@Override
 	public List<Salesman> selectSalesmenBypage(int pageSize, int pageNum) {
 		// TODO Auto-generated method stub
@@ -246,5 +274,51 @@ public class BossService implements IBossService {
 		return dao.updateSalesmanByBoss(salesman);
 	}
 
+	@Override
+	public List<Commission> queryHistCommission(int pageSize, int pageNum, String startTime, String endTime) {
+		// TODO Auto-generated method stub
+		List<Commission> list = bossDao.queryHistCommission(pageSize, pageNum, startTime, endTime);
+
+		return list;
+	}
+
+	@Override
+	public int countCommissionPages(int pageSize, String startTime, String endTime) {
+		String hql = "select count(*) from Commission as c where c.salesDate<='" + endTime + "' and c.salesDate>='"
+				+ startTime + "'";
+		int totalSize = 0;
+		totalSize = bossDao.queryCount(pageSize, hql);
+
+		return totalSize;
+	}
+
+	@Override
+	public List queryByTownTime(String startTime, String endTime) {
+		List<Map<String, Object>> wrapper = new ArrayList<Map<String, Object>>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		String hql = "select s.town,sum(s.num) from Salesrecord s where s.saleDate<='" + endTime
+				+ "' and s.saleDate>='" + startTime + "' group by s.town";
+		List<Object[]> queryList = dao.findList(hql);
+		List<String> towns = new ArrayList<String>();
+		List<Long> sales = new ArrayList<Long>();
+		
+		for(Object[] object: queryList){
+			String name = (String)object[0];
+			Long num = (Long)object[1];
+			towns.add(name);
+			sales.add(num);
+			System.out.println(name);
+		}
+
+		for (int i = 0; i < queryList.size(); i++) {
+			System.out.println(queryList.get(i));
+			System.out.println(queryList.get(i).toString());
+		}
+
+		map.put("data", queryList);
+		wrapper.add(map);
+
+		return wrapper;
+	}
 
 }

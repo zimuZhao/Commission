@@ -67,6 +67,7 @@
 
 	<!--DAO -->
 	<bean id="userDAO" class="cn.hit.commission.dao.UserDAO" parent="baseDAO" />
+	<bean id="bossDAO" class="cn.hit.commission.dao.BossDAO" parent="baseDAO" />
 
 	<!-- Service -->
 	<bean id="userService" class="cn.hit.commission.service.UserService">
@@ -74,6 +75,7 @@
 	</bean>
 	<bean id="bossService" class="cn.hit.commission.service.BossService">
 		<property name="dao" ref="userDAO" />
+		<property name="bossDao" ref="bossDAO"></property>
 	</bean>
 	<bean id="loginService" class="cn.hit.commission.service.LoginService">
 		<property name="dao" ref="userDAO" />
@@ -82,11 +84,11 @@
 	<!-- Action 默认是单例形式，应设置为多例形式 -->
 	<bean id="loginAction" class="cn.hit.commission.action.LoginAction"
 		scope="prototype">
-		<property name="service" ref="loginService"></property>
+		<property name="service" ref="loginService" />
 	</bean>
 	<bean id="bossAction" class="cn.hit.commission.action.BossAction"
 		scope="prototype">
-		<property name="service" ref="bossService"></property>
+		<property name="service" ref="bossService" />
 	</bean>
 	<bean id="userAction" class="cn.hit.commission.action.UserAction"
 		scope="prototype">
@@ -95,6 +97,10 @@
 	<bean id="saleAction" class="cn.hit.commission.action.SaleAction"
 		scope="prototype">
 		<property name="ser" ref="userService" />
+		<property name="bossService" ref="bossService" />
+	</bean>
+	<bean id="pageRedirect" class="cn.hit.commission.action.PageRedirect"
+		scope="prototype">
 	</bean>
 
 </beans>

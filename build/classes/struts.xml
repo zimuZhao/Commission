@@ -36,20 +36,12 @@
 			<result name="success">/login.jsp</result>
 		</action>
 		<!-- 用户权限控制 End -->
-		
+
 		<action name="userInfoBrief" class="userAction" method="userSaleBriefInfo">
 			<result name="success">/WEB-INF/page/salesmanIndex.jsp</result>
 		</action>
 		<action name="bossInfoBrief" class="bossAction" method="bossBriefInfo">
 			<result name="success">/WEB-INF/page/gunsmithIndex.jsp</result>
-		</action>
-		<action name="commissionAction" class="userAction" method="searchMonthReport">
-			<result name="success">/WEB-INF/page/curMonthlyReport.jsp</result>
-			<result name="fail">/WEB-INF/page/curMonthlyReport.jsp</result>
-		</action>
-		<action name="historyAction" class="userAction" method="searchHistoryReport">
-			<result name="success">/WEB-INF/page/historyMonthlyReport.jsp</result>
-			<result name="fail">/WEB-INF/page/historyMonthlyReport.jsp</result>
 		</action>
 		<action name="saleAction" class="saleAction" method="saveSalesrecord">
 			<result name="success">/WEB-INF/page/salesmanIndex.jsp</result>
@@ -76,6 +68,10 @@
 				<param name="root">jsonResult</param>
 			</result>
 		</action>
+		<!-- 查看历史销售情况 -->
+		<action name="historyAction" class="bossAction" method="searchHistoryReport">
+			<result name="success">/WEB-INF/page/historyMonthlyReport.jsp</result>
+		</action>
 		<!-- 查看Top8的员工 -->
 		<action name="queryTopUser" class="bossAction" method="topUserList">
 			<result name="success" type="json">
@@ -88,6 +84,68 @@
 				<param name="root">jsonResult</param>
 			</result>
 		</action>
+		<!-- 查询当月佣金支付情况 -->
+		<action name="commissionAction" class="bossAction" method="searchMonthReport">
+			<result name="success">/WEB-INF/page/curMonthlyReport.jsp</result>
+			<result name="fail">/WEB-INF/page/curMonthlyReport.jsp</result>
+		</action>
+		<!-- 查询历史佣金结算情况 -->
+		<action name="queryHistCommission" class="bossAction" method="queryHistCommission">
+			<result name="success" type="json">
+				<param name="root">jsonResult</param>
+			</result>
+		</action>
+		<!-- 地图地图 -->
+		<action name="queryByTownTime" class="bossAction" method="queryByTownTime">
+			<result name="success" type="json">
+				<param name="root">jsonResult</param>
+			</result>
+		</action>
 		<!-- 老板的相关Action End -->
+
+		<!-- 更新用户详细信息 -->
+		<action name="updateSalesmanDetail" class="userAction"
+			method="updateSalesmanDetail">
+			<result name="success" type="json">
+				<param name="root">jsonResult</param>
+			</result>
+		</action>
+		<!-- boss分页查询 -->
+		<action name="selectSalesmenByPage" class="bossAction"
+			method="selectSalesmenByPage">
+			<!-- <result name="success">/WEB-INF/page/salesmanIndex.jsp </result> -->
+		</action>
+		<!-- boss新增用户 -->
+		<action name="addSalesman" class="bossAction" method="addSalesman">
+			<!-- <result name="success">/WEB-INF/page/salesmanIndex.jsp </result> -->
+		</action>
+		<!-- boss新增用户 -->
+		<action name="updateSalesman" class="bossAction" method="updateSalesman">
+			<!-- <result name="success">/WEB-INF/page/salesmanIndex.jsp </result> -->
+		</action>
+		<action name="deleteSalesman" class="bossAction" method="deleteSalesman">
+			<!-- <result name="success">/WEB-INF/page/salesmanIndex.jsp </result> -->
+		</action>
+
+		<!-- 页面重定向Action -->
+		<action name="bossHistoryReport" class="pageRedirect" method="historyMonthlyReport">
+			<result name="success">/WEB-INF/page/historyMonthlyReport.jsp</result>
+		</action>
+		<action name="bossManageSalesman" class="pageRedirect" method="gsManageSalesman">
+			<result name="success">/WEB-INF/page/gsManageSalesman.jsp</result>
+		</action>
+		<action name="bossIndexPage" class="PageRedirect" method="gunsmithIndex">
+			<result name="success">/WEB-INF/page/curMonthlyReport.jsp</result>
+		</action>
+		<action name="userProfile" class="PageRedirect" method="myProfile">
+			<result name="success">/WEB-INF/page/myProfile.jsp</result>
+		</action>
+		<action name="resetPassword" class="PageRedirect" method="resetPassword">
+			<result name="success">/WEB-INF/page/resetPassword.jsp</result>
+		</action>
+		<action name="userIndexPage" class="PageRedirect" method="salesmanIndex">
+			<result name="success">/WEB-INF/page/resetPassword.jsp</result>
+		</action>
+
 	</package>
 </struts>    

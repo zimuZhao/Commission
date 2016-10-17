@@ -194,7 +194,7 @@ public class UserDAO extends BaseHibernateDAO implements IUserDAO {
 			if (countObj == null) {
 				return 0;
 			} else {
-				count = Integer.parseInt(countObj + "") + (pageSize - 1) / pageSize;
+				count = (Integer.parseInt(countObj + "") + (pageSize - 1)) / pageSize;
 
 			}
 			tran.commit();
