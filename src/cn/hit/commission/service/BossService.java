@@ -296,9 +296,11 @@ public class BossService implements IBossService {
 	public List queryByTownTime(String startTime, String endTime) {
 		List<Map<String, Object>> wrapper = new ArrayList<Map<String, Object>>();
 		Map<String, Object> map = new HashMap<String, Object>();
+		
 		String hql = "select s.town,sum(s.num) from Salesrecord s where s.saleDate<='" + endTime
 				+ "' and s.saleDate>='" + startTime + "' group by s.town";
 		List<Object[]> queryList = dao.findList(hql);
+		
 		List<String> towns = new ArrayList<String>();
 		List<Long> sales = new ArrayList<Long>();
 		
@@ -309,13 +311,12 @@ public class BossService implements IBossService {
 			sales.add(num);
 			System.out.println(name);
 		}
+		
+		Map<String,Object> innerMap = new HashMap<String, Object>();
+		innerMap.put("name", towns);
+		innerMap.put("data", sales);
 
-		for (int i = 0; i < queryList.size(); i++) {
-			System.out.println(queryList.get(i));
-			System.out.println(queryList.get(i).toString());
-		}
-
-		map.put("data", queryList);
+		map.put("result", innerMap);
 		wrapper.add(map);
 
 		return wrapper;

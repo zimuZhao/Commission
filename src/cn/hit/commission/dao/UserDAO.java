@@ -282,4 +282,104 @@ public class UserDAO extends BaseHibernateDAO implements IUserDAO {
 		}
 	}
 
+	@Override
+	public List<Salesrecord> selectSalesRecordBypage(int salesmanID, String startTime, String endTime, int pageSize,
+			int pageNum) {
+		Transaction tran = null;
+		Session session = null;
+		try {
+			session = getSession();
+			tran = session.beginTransaction();
+			String hql = "select s from Salesrecord s where s.saleDate>='" + startTime + "' and s.saleDate<='" + endTime
+					+ "' and s.salesmanID.salesmanID=" + salesmanID;
+			List<Salesrecord> salesRecordList = session.createQuery(hql).setFirstResult((pageNum - 1) * pageSize)
+					.setMaxResults(pageSize).list();
+			tran.commit();
+			return salesRecordList;
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			return null;
+		} finally {
+			session.close();
+		}
+	}
+
+	@Override
+	public int selectSalesRecordCount(int salesmanID, int pageSize) {
+		Transaction tran = null;
+		Session session = null;
+		int count;
+		try {
+			session = getSession();
+			tran = session.beginTransaction();
+
+			String hql = "select count(*)  from Salesrecord s where s.salesmanID.salesmanID=" + salesmanID;
+
+			Object countObj = session.createQuery(hql).uniqueResult();
+			if (countObj == null) {
+				return 0;
+			} else {
+				count = (Integer.parseInt(String.valueOf(countObj)) + (pageSize - 1)) / pageSize;
+
+			}
+			tran.commit();
+			return count;
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			return 0;
+		} finally {
+			session.close();
+		}
+	}
+
+	@Override
+	public List<Commission> selectCommissionBypage(int salesmanID, String startTime, String endTime, int pageSize,
+			int pageNum) {
+		Transaction tran = null;
+		Session session = null;
+		try {
+			session = getSession();
+			tran = session.beginTransaction();
+			String hql = "select c from Commission c where c.salesDate>='" + startTime + "' and c.salesDate<='"
+					+ endTime + "' and c.salesmanID.salesmanID=" + salesmanID;
+			List<Commission> commissionList = session.createQuery(hql).setFirstResult((pageNum - 1) * pageSize)
+					.setMaxResults(pageSize).list();
+			tran.commit();
+			return commissionList;
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			return null;
+		} finally {
+			session.close();
+		}
+	}
+
+	@Override
+	public int selectCommissionCount(int salesmanID, int pageSize) {
+		Transaction tran = null;
+		Session session = null;
+		int count;
+		try {
+			session = getSession();
+			tran = session.beginTransaction();
+
+			String hql = "select count(*)  from Commission c where c.salesmanID.salesmanID=" + salesmanID;
+
+			Object countObj = session.createQuery(hql).uniqueResult();
+			if (countObj == null) {
+				return 0;
+			} else {
+				count = (Integer.parseInt(String.valueOf(countObj)) + (pageSize - 1)) / pageSize;
+
+			}
+			tran.commit();
+			return count;
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			return 0;
+		} finally {
+			session.close();
+		}
+	}
+
 }

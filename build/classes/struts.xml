@@ -126,6 +126,16 @@
 		<action name="deleteSalesman" class="bossAction" method="deleteSalesman">
 			<!-- <result name="success">/WEB-INF/page/salesmanIndex.jsp </result> -->
 		</action>
+		<!-- user分页查询销售记录 -->
+		<action name="selectSalesRecordByPage" class="userAction"
+			method="selectSalesRecordByPage">
+			<!-- <result name="success">/WEB-INF/page/salesmanIndex.jsp </result> -->
+		</action>
+		<!-- user分页查询佣金记录 -->
+		<action name="selectCommissionByPage" class="userAction"
+			method="selectCommissionByPage">
+			<!-- <result name="success">/WEB-INF/page/salesmanIndex.jsp </result> -->
+		</action>
 
 		<!-- 页面重定向Action -->
 		<action name="bossHistoryReport" class="pageRedirect" method="historyMonthlyReport">

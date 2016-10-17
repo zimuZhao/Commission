@@ -1,5 +1,6 @@
 package cn.hit.commission.action;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,52 @@ public class UserAction extends ActionSupport {
 	private Map<String, Object> jsonResult;
 
 	private Salesman salesmanDetail;
+
+	private String startTime;
+	private String endTime;
+	private String pageSize;
+	private String pageNum;
+	private String salesmanID;
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(String pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public String getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(String pageNum) {
+		this.pageNum = pageNum;
+	}
+
+	public String getSalesmanID() {
+		return salesmanID;
+	}
+
+	public void setSalesmanID(String salesmanID) {
+		this.salesmanID = salesmanID;
+	}
 
 	public Salesman getSalesmanDetail() {
 		return salesmanDetail;
@@ -197,6 +244,91 @@ public class UserAction extends ActionSupport {
 		}
 		map.put("status", status);
 		map.put("result", newSalesman);
+		jsonResult = map;
+		return "success";
+	}
+
+	public String selectSalesRecordByPage() {
+		if ("".equals(pageNum) || pageNum == null) {
+			pageNum = "1";
+		}
+		if ("".equals(pageSize) || pageSize == null) {
+			pageSize = "10";
+		}
+		// List<Salesrecord> salesRecordList =
+		// ser.selectSalesRecordBypage(0,"2016-8-1", "2016-9-1",
+		// Integer.parseInt(pageSize), Integer.parseInt(pageNum));
+		// int pageCount =
+		// ser.selectSalesRecordCount(0,Integer.parseInt(pageSize));
+		List<Salesrecord> salesRecordList = ser.selectSalesRecordBypage(Integer.parseInt(salesmanID), startTime,
+				endTime, Integer.parseInt(pageSize), Integer.parseInt(pageNum));
+		int pageCount = ser.selectSalesRecordCount(Integer.parseInt(salesmanID), Integer.parseInt(pageSize));
+		// request.setAttribute("salesRecordList", salesRecordList);
+		// request.setAttribute("recordPageCount", pageCount);
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+		map.put("totalPages", pageCount);
+		for (int i = 0; i < salesRecordList.size(); i++) {
+			Map<String, Object> innerMap = new HashMap<String, Object>();
+			Salesrecord salesrecord = salesRecordList.get(i);
+			innerMap.put("salesmanID", salesrecord.getSalesmanID().getSalesmanID());
+			innerMap.put("Num", salesrecord.getNum());
+			innerMap.put("Date", salesrecord.getSaleDate());
+			innerMap.put("Saleman", salesrecord.getSalesmanID().getName());
+			innerMap.put("Locks", salesrecord.getLocksnum());
+			innerMap.put("Stocks", salesrecord.getStocksnum());
+			innerMap.put("Barrels", salesrecord.getBarrelsnum());
+
+			mapList.add(innerMap);
+		}
+
+		map.put("data", mapList);
+		jsonResult = map;
+
+		return "success";
+	}
+
+	public String selectCommissionByPage() {
+		if ("".equals(pageNum) || pageNum == null) {
+			pageNum = "1";
+		}
+		if ("".equals(pageSize) || pageSize == null) {
+			pageSize = "10";
+		}
+		// List<Commission> commissionList =
+		// ser.selectCommissionBypage(0,"2016-7-1", "2016-8-25",
+		// Integer.parseInt(pageSize), Integer.parseInt(pageNum));
+		// int pageCount =
+		// ser.selectCommissionCount(0,Integer.parseInt(pageSize));
+		List<Commission> commissionList = ser.selectCommissionBypage(Integer.parseInt(salesmanID), startTime, endTime,
+				Integer.parseInt(pageSize), Integer.parseInt(pageNum));
+		int pageCount = ser.selectCommissionCount(Integer.parseInt(salesmanID), Integer.parseInt(pageSize));
+		// request.setAttribute("commissionList", commissionList);
+		// request.setAttribute("CommissionPageCount", pageCount);
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+		map.put("totalPages", pageCount);
+		for (int i = 0; i < commissionList.size(); i++) {
+			Map<String, Object> innerMap = new HashMap<String, Object>();
+			Commission commission = commissionList.get(i);
+			innerMap.put("salesmanID", commission.getSalesmanID().getSalesmanID());
+			innerMap.put("Num", commission.getCommissionID());
+			innerMap.put("Date", commission.getSalesDate());
+			innerMap.put("Saleman", commission.getSalesmanID().getName());
+			innerMap.put("Locks", commission.getLocksum());
+			innerMap.put("Stocks", commission.getStocksum());
+			innerMap.put("Barrels", commission.getBarrelsum());
+			innerMap.put("Sale", commission.getTotalPrice());
+			innerMap.put("basic", commission.getFirstcom());
+			innerMap.put("midCommission", commission.getSecondcom());
+			innerMap.put("highCommision", commission.getThirdcom());
+			innerMap.put("totalCommission", commission.getTotalCommission());
+			mapList.add(innerMap);
+		}
+
+		map.put("data", mapList);
 		jsonResult = map;
 		return "success";
 	}
