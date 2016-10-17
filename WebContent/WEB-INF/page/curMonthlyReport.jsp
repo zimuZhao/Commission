@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" session="false"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+				+ request.getServerName() + ":" + request.getServerPort()
+				+ path + "/";
+%>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,6 +53,7 @@
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
 </head>
+<base href=" <%=basePath%>"> 
 <!-- container section start -->
 <section id="container" class=""> <header
 	class="header dark-bg">
@@ -64,20 +71,10 @@
 	<!-- notificatoin dropdown start-->
 	<ul class="nav pull-right top-menu">
 		<!-- user login dropdown start-->
-		<%
-			try {
-		%>
-		<jsp:useBean id="curGunsmith" scope="session"
-			type="cn.hit.commission.po.Gunsmith" />
 		<li class="dropdown"><a data-toggle="dropdown"
-			class="dropdown-toggle" href="#"> <span class="username"><%=curGunsmith.getName()%></span>
+			class="dropdown-toggle" href="#"> <span class="username">${sessionScope.boss.name}</span>
 				<b class="caret"></b>
 		</a></li>
-		<%
-			} catch (Exception e) {
-				response.sendRedirect("login.jsp");
-			}
-		%>
 		<!-- user login dropdown end -->
 	</ul>
 	<!-- notificatoin dropdown end-->
@@ -87,7 +84,7 @@
 	<!-- sidebar menu start-->
 	<ul class="sidebar-menu">
 		<li class="sub-menu"><a class=""
-			href="http://localhost:8080/Commission/gunsmithIndex.jsp"> <i
+			href="gunsmithIndex.jsp"> <i
 				class="icon_house_alt"></i> <span>Admin Index Page</span>
 		</a></li>
 		<li class="active"><a class=""

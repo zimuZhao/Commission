@@ -222,21 +222,6 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public List<Commission> searchCommission(int salesmanID, String date) {
-		// TODO Auto-generated method stub
-		List<Commission> list = new ArrayList<Commission>();
-		if (salesmanID == -1) {
-			String hql = "from Commission as c where c.salesDate like '" + date + "%'";
-			list = dao.findList(hql);
-		} else {
-			String hql = "from Commission as c where c.salesmanID = " + salesmanID + " and c.salesDate like '"
-					+ date + "%'";
-			list = dao.findList(hql);
-		}
-		return list;
-	}
-
-	@Override
 	/**
 	 * 验证销售额的有效性
 	 */
@@ -253,7 +238,22 @@ public class UserService implements IUserService {
 		} else {
 			return false;
 		}
+	}
 
+	@Override
+	/**
+	 * 更新销售员登陆密码
+	 */
+	public boolean updateUserPwd(Salesman man) {
+		// TODO Auto-generated method stub
+		boolean flag = dao.updateUserPwd(man);
+		return flag;
+	}
+	
+	@Override
+	public Salesman updateSalesmanDetail(Salesman salesman) {
+		// TODO Auto-generated method stub
+		return dao.updateSalesman(salesman);
 	}
 
 }

@@ -2,6 +2,12 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+				+ request.getServerName() + ":" + request.getServerPort()
+				+ path + "/";
+%>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,6 +55,7 @@
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
 </head>
+<base href=" <%=basePath%>"> 
 <!-- container section start -->
 <section id="container" class="">
 	<header class="header dark-bg">
@@ -68,20 +75,10 @@
 			<!-- notificatoin dropdown start-->
 			<ul class="nav pull-right top-menu">
 				<!-- user login dropdown start-->
-				<%
-					try {
-				%>
-				<jsp:useBean id="curGunsmith" scope="session"
-					type="cn.hit.commission.po.Gunsmith" />
 				<li class="dropdown"><a data-toggle="dropdown"
-					class="dropdown-toggle" href="#"> <span class="username"><%=curGunsmith.getName()%></span>
+					class="dropdown-toggle" href="#"> <span class="username">${sessionScope.boss.name}</span>
 						<b class="caret"></b>
 				</a></li>
-				<%
-					} catch (Exception e) {
-						response.sendRedirect("login.jsp");
-					}
-				%>
 				<!-- user login dropdown end -->
 			</ul>
 			<!-- notificatoin dropdown end-->
@@ -94,15 +91,15 @@
 			<!-- sidebar menu start-->
 			<ul class="sidebar-menu">
 				<li class="sub-menu"><a class=""
-					href="http://localhost:8080/Commission/gunsmithIndex.jsp"> <i
+					href="bossIndexPage.action"> <i
 						class="icon_house_alt"></i> <span>Admin Index Page</span>
 				</a></li>
 				<li class="sub-menu"><a class=""
-					href="http://localhost:8080/Commission/commissionAction.action">
+					href="commissionAction.action">
 						<i class="icon_document_alt"></i> <span>Monthly Report</span>
 				</a></li>
 				<li class="active"><a class=""
-					href="http://localhost:8080/Commission/historyMonthlyReport.jsp">
+					href="bossHistoryReport.action">
 						<i class="icon_document_alt"></i> <span>History Report</span>
 				</a></li>
 			</ul>
@@ -132,7 +129,7 @@
 						<header class="panel-heading"> Date Pickers </header>
 						<div class="panel-body">
 							<!--date picker start-->
-							<form class="form-inline" action="historyAction" role="form"
+							<form class="form-inline" action="queryByTownTime" role="form"
 								method="post">
 								<div class="form-group">
 									<input class="form-control" id="indateym" name="searchDate"

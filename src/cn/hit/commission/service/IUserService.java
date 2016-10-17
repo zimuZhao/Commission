@@ -18,10 +18,14 @@ public interface IUserService {
 	public Commission computeCommission(Salesman man, Date date);
 	
 	public int searchRecord(int salesmanID);
-	public List<Commission> searchCommission(int salesmanID, String date);
+
 	public List<Salesman> findAllSalesman();
 
 	public boolean saveSalesrecord(Salesrecord transientInstance);
 	public boolean saveCommission(Commission record);
 	public boolean verifySaleReport(Salesman man, Date date, int locknum, int stocknum, int barrelnum);
+	public boolean updateUserPwd(Salesman man);
+	//更新用户详细信息
+	public Salesman updateSalesmanDetail(Salesman salesman);
+
 }

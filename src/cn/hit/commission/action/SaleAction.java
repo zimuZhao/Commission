@@ -11,6 +11,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import cn.hit.commission.po.Commission;
 import cn.hit.commission.po.Salesman;
 import cn.hit.commission.po.Salesrecord;
+import cn.hit.commission.service.IBossService;
 import cn.hit.commission.service.IUserService;
 
 public class SaleAction extends ActionSupport {
@@ -19,8 +20,17 @@ public class SaleAction extends ActionSupport {
 
 	private int locksnum, stocksnum, barrelsnum;
 	IUserService ser;
+	IBossService bossService;
 	Salesman salesman;
 	List<Salesrecord> lists = null;
+
+	public IBossService getBossService() {
+		return bossService;
+	}
+
+	public void setBossService(IBossService bossService) {
+		this.bossService = bossService;
+	}
 
 	public List<Salesrecord> getLists() {
 		return lists;
@@ -74,7 +84,8 @@ public class SaleAction extends ActionSupport {
 		Salesrecord record = new Salesrecord();
 		Commission commission = new Commission();
 		boolean saveRecordSucc = true;
-		salesman = (Salesman) ActionContext.getContext().getSession().get("curSalesman");
+		salesman = (Salesman) ActionContext.getContext().getSession().get("user");
+		System.out.println("当前登录的用户为："+salesman.getName());
 		lists = ser.curMonthSaleRecord(salesman.getSalesmanID());
 		if (salesman == null) {
 			this.clearErrorsAndMessages();
@@ -90,7 +101,7 @@ public class SaleAction extends ActionSupport {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
 		String tmp = dateFormat.format(new Date());
 		
-		if (ser.searchCommission(salesman.getSalesmanID(), tmp).size() > 0) {
+		if (bossService.searchCommission(salesman.getSalesmanID(), tmp).size() > 0) {
 			this.clearErrorsAndMessages();
 			this.addActionMessage("<script>alert('本月已结算！');</script>");
 			return "success";

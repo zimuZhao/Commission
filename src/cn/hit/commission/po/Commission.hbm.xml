@@ -6,7 +6,7 @@
 	<class name="cn.hit.commission.po.Commission" table="commission"
 		catalog="commission_db">
 		<id name="commissionID" type="int">
-			<column name="idcommission" />
+			<column name="commissionID" />
 			<generator class="increment" />
 		</id>
 		<!-- <property name="salesmanID" type="int">
@@ -14,7 +14,7 @@
 		</property> -->
 		<many-to-one name="salesmanID" column="salesmanID" lazy="false"></many-to-one>
 		<property name="salesDate" type="date">
-			<column name="salesDate" />
+			<column name="saleDate" />
 		</property>
 		<property name="locksum" type="int">
 			<column name="locksum" />
