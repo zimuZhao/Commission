@@ -85,7 +85,7 @@ public class SaleAction extends ActionSupport {
 		Commission commission = new Commission();
 		boolean saveRecordSucc = true;
 		salesman = (Salesman) ActionContext.getContext().getSession().get("user");
-		System.out.println("当前登录的用户为："+salesman.getName());
+		System.out.println("当前登录的用户为：" + salesman.getName());
 		lists = ser.curMonthSaleRecord(salesman.getSalesmanID());
 		if (salesman == null) {
 			this.clearErrorsAndMessages();
@@ -97,10 +97,11 @@ public class SaleAction extends ActionSupport {
 		record.setLocksnum(locksnum);
 		record.setStocksnum(stocksnum);
 		record.setBarrelsnum(barrelsnum);
-		
+		record.setNum(locksnum * 45 + stocksnum * 30 + barrelsnum * 25);
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
 		String tmp = dateFormat.format(new Date());
-		
+
 		if (bossService.searchCommission(salesman.getSalesmanID(), tmp).size() > 0) {
 			this.clearErrorsAndMessages();
 			this.addActionMessage("<script>alert('本月已结算！');</script>");

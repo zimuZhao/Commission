@@ -12,6 +12,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import cn.hit.commission.po.Commission;
 import cn.hit.commission.po.Salesman;
 import cn.hit.commission.po.Salesrecord;
+import cn.hit.commission.service.ILoginService;
 import cn.hit.commission.service.IUserService;
 
 public class UserAction extends ActionSupport {
@@ -24,9 +25,13 @@ public class UserAction extends ActionSupport {
 	private String type;
 	private String password;
 	private IUserService ser;
+	private ILoginService loginService;
 	private Salesman newSaleman;
-	private String newPassword;
-
+	
+	// 销售员修改密码
+	private String newpassword;
+	private String oldpassword;
+	
 	private List<Salesrecord> lists = null;
 	private List<Commission> commissionLists = null;
 	private List<Commission> historyLists = null;
@@ -37,9 +42,33 @@ public class UserAction extends ActionSupport {
 
 	private String startTime;
 	private String endTime;
-	private String pageSize;
 	private String pageNum;
 	private String salesmanID;
+
+	
+	public ILoginService getLoginService() {
+		return loginService;
+	}
+
+	public void setLoginService(ILoginService loginService) {
+		this.loginService = loginService;
+	}
+
+	public String getNewpassword() {
+		return newpassword;
+	}
+
+	public void setNewpassword(String newpassword) {
+		this.newpassword = newpassword;
+	}
+
+	public String getOldpassword() {
+		return oldpassword;
+	}
+
+	public void setOldpassword(String oldpassword) {
+		this.oldpassword = oldpassword;
+	}
 
 	public String getStartTime() {
 		return startTime;
@@ -55,14 +84,6 @@ public class UserAction extends ActionSupport {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
-	}
-
-	public String getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(String pageSize) {
-		this.pageSize = pageSize;
 	}
 
 	public String getPageNum() {
@@ -87,14 +108,6 @@ public class UserAction extends ActionSupport {
 
 	public void setSalesmanDetail(Salesman salesmanDetail) {
 		this.salesmanDetail = salesmanDetail;
-	}
-
-	public String getNewPassword() {
-		return newPassword;
-	}
-
-	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
 	}
 
 	public Salesman getNewSaleman() {
@@ -193,83 +206,47 @@ public class UserAction extends ActionSupport {
 		return "success";
 	}
 
-	// 更新销售员个人基本信息
-	public String updateUserInfo() {
-
-		return "success";
-	}
-
 	// 更新销售员登陆密码
 	public String updateUserPwd() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		ActionContext ctx = ActionContext.getContext();
 		String status = "false";
-
-		Salesman tmpman = (Salesman) ctx.getSession().get("user");
-		tmpman.setPassword(newPassword);
-		if (newPassword != null && ser.updateUserPwd(tmpman)) {
-			status = "true";
-			System.out.println("密码修改成功");
-		} else {
-			System.out.println("密码修改失败");
-		}
+		ActionContext ctx = ActionContext.getContext();
+		Salesman manInSess = (Salesman) ctx.getSession().get("user");
+	    Salesman man = loginService.salesmanLogin(manInSess.getSalesmanID(), oldpassword);
+	    if(man!=null){
+	    	manInSess.setPassword(newpassword);
+			if (newpassword != null && ser.updateUserPwd(manInSess)) {
+				status = "true";
+				System.out.println("密码修改成功");
+			} else {
+				status = "false";
+				System.out.println("密码修改失败");
+			}
+	    }else{
+	    	status = "false";
+	    }
+		
 		map.put("status", status);
-
 		jsonResult = map;
 		return "success";
 	}
 
-	// 更新用户信息
-	public String updateSalesmanDetail() {
-		// System.out.print("jsdhjsah");
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		/*
-		 * salesmanDetail = new Salesman(); salesmanDetail.setName("12");
-		 * salesmanDetail.setLinkman("12"); salesmanDetail.setEmail("1234");
-		 * salesmanDetail.setMobile("3434"); salesmanDetail.setAddress("3255");
-		 * salesmanDetail.setSalesmanID(100601);
-		 * salesmanDetail.setUpdateTime(new Date());
-		 */
-
-		Salesman newSalesman = ser.updateSalesmanDetail(salesmanDetail);
-		String status = "";
-		if (newSalesman == null) {
-			status = "false";
-		} else {
-			status = "success";
-			ActionContext ctx = ActionContext.getContext();
-			newSalesman.setPassword("");
-			ctx.getSession().put("user", newSalesman);
-		}
-		map.put("status", status);
-		map.put("result", newSalesman);
-		jsonResult = map;
-		return "success";
-	}
-
-	public String selectSalesRecordByPage() {
+	// 查询当前销售员的销售信息
+	public String selectSalesRecordByPage(){
 		if ("".equals(pageNum) || pageNum == null) {
 			pageNum = "1";
 		}
-		if ("".equals(pageSize) || pageSize == null) {
-			pageSize = "10";
-		}
-		// List<Salesrecord> salesRecordList =
-		// ser.selectSalesRecordBypage(0,"2016-8-1", "2016-9-1",
-		// Integer.parseInt(pageSize), Integer.parseInt(pageNum));
-		// int pageCount =
-		// ser.selectSalesRecordCount(0,Integer.parseInt(pageSize));
-		List<Salesrecord> salesRecordList = ser.selectSalesRecordBypage(Integer.parseInt(salesmanID), startTime,
-				endTime, Integer.parseInt(pageSize), Integer.parseInt(pageNum));
-		int pageCount = ser.selectSalesRecordCount(Integer.parseInt(salesmanID), Integer.parseInt(pageSize));
-		// request.setAttribute("salesRecordList", salesRecordList);
-		// request.setAttribute("recordPageCount", pageCount);
-		Map<String, Object> map = new HashMap<String, Object>();
 
+		ActionContext ctx = ActionContext.getContext();
+		Salesman salesman2 = (Salesman) ctx.getSession().get("user");
+		List<Salesrecord> salesRecordList = ser.selectSalesRecordBypage(salesman2.getSalesmanID(),startTime, endTime, 10, Integer.parseInt(pageNum));
+		int pageCount = ser.selectSalesRecordCount(salesman2.getSalesmanID(),10);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		map.put("totalPages", pageCount);
-		for (int i = 0; i < salesRecordList.size(); i++) {
+		for(int i = 0; i < salesRecordList.size(); i++){
 			Map<String, Object> innerMap = new HashMap<String, Object>();
 			Salesrecord salesrecord = salesRecordList.get(i);
 			innerMap.put("salesmanID", salesrecord.getSalesmanID().getSalesmanID());
@@ -279,38 +256,30 @@ public class UserAction extends ActionSupport {
 			innerMap.put("Locks", salesrecord.getLocksnum());
 			innerMap.put("Stocks", salesrecord.getStocksnum());
 			innerMap.put("Barrels", salesrecord.getBarrelsnum());
-
+			
 			mapList.add(innerMap);
 		}
-
+		
 		map.put("data", mapList);
 		jsonResult = map;
 
 		return "success";
 	}
 
-	public String selectCommissionByPage() {
+	// 查询当前销售员的佣金报表
+	public String selectCommissionByPage(){
 		if ("".equals(pageNum) || pageNum == null) {
 			pageNum = "1";
 		}
-		if ("".equals(pageSize) || pageSize == null) {
-			pageSize = "10";
-		}
-		// List<Commission> commissionList =
-		// ser.selectCommissionBypage(0,"2016-7-1", "2016-8-25",
-		// Integer.parseInt(pageSize), Integer.parseInt(pageNum));
-		// int pageCount =
-		// ser.selectCommissionCount(0,Integer.parseInt(pageSize));
-		List<Commission> commissionList = ser.selectCommissionBypage(Integer.parseInt(salesmanID), startTime, endTime,
-				Integer.parseInt(pageSize), Integer.parseInt(pageNum));
-		int pageCount = ser.selectCommissionCount(Integer.parseInt(salesmanID), Integer.parseInt(pageSize));
-		// request.setAttribute("commissionList", commissionList);
-		// request.setAttribute("CommissionPageCount", pageCount);
+		ActionContext ctx = ActionContext.getContext();
+		Salesman salesman2 = (Salesman) ctx.getSession().get("user");
+		List<Commission> commissionList = ser.selectCommissionBypage(salesman2.getSalesmanID(),startTime, endTime, 10, Integer.parseInt(pageNum));
+		int pageCount = ser.selectCommissionCount(salesman2.getSalesmanID(),10);
 		Map<String, Object> map = new HashMap<String, Object>();
-
+		
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		map.put("totalPages", pageCount);
-		for (int i = 0; i < commissionList.size(); i++) {
+		for(int i = 0; i < commissionList.size(); i++){
 			Map<String, Object> innerMap = new HashMap<String, Object>();
 			Commission commission = commissionList.get(i);
 			innerMap.put("salesmanID", commission.getSalesmanID().getSalesmanID());
@@ -327,8 +296,42 @@ public class UserAction extends ActionSupport {
 			innerMap.put("totalCommission", commission.getTotalCommission());
 			mapList.add(innerMap);
 		}
-
+		
 		map.put("data", mapList);
+		jsonResult = map;
+		return "success";
+	}
+	
+	// 更新销售员信息
+	public String updateSalesmanDetail() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ActionContext ctx = ActionContext.getContext();
+		Salesman salesmanInSess = (Salesman) ctx.getSession().get("user");
+		
+		if(!"".equals(salesmanDetail.getName())){
+			salesmanInSess.setName(salesmanDetail.getName());
+		}
+		if(!"".equals(salesmanInSess.getLinkman())){
+			salesmanInSess.setLinkman(salesmanDetail.getLinkman());
+		}
+		if(!"".equals(salesmanInSess.getEmail())){
+			salesmanInSess.setEmail(salesmanDetail.getEmail());
+		}
+		if(!"".equals(salesmanInSess.getMobile())){
+			salesmanInSess.setAddress(salesmanDetail.getAddress());
+		}
+		
+		Salesman newSalesman = ser.updateSalesmanDetail(salesmanInSess);
+		String status = "";
+		if (newSalesman == null) {
+			status = "false";
+		} else {
+			status = "success";
+			newSalesman.setPassword("");
+			ctx.getSession().put("user", newSalesman);
+		}
+		map.put("status", status);
+		map.put("result", newSalesman);
 		jsonResult = map;
 		return "success";
 	}

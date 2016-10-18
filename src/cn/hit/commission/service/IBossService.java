@@ -41,6 +41,6 @@ public interface IBossService {
 	// boss添加用户
 	public Salesman saveSalesman(Salesman salesman);
 
-	// boss更新用户
+	// 更新销售员个人信息
 	public Salesman updateSalesmanByBoss(Salesman salesman);
 }
