@@ -27,5 +27,14 @@ public interface IUserService {
 	public boolean updateUserPwd(Salesman man);
 	//更新用户详细信息
 	public Salesman updateSalesmanDetail(Salesman salesman);
+	
+	//user分页查询销售记录
+	public List<Salesrecord> selectSalesRecordBypage(int salesmanID,String startTime,String endTime,int pageSize,int pageNum);
+	//user查询记录总页数
+	public int selectSalesRecordCount(int salesmanID,int pageSize);
+	//user分页查询佣金情况
+	public List<Commission> selectCommissionBypage(int salesmanID,String startTime,String endTime,int pageSize,int pageNum);
+	//user查询佣金记录总数
+	public int selectCommissionCount(int salesmanID,int pageSize);
 
 }

@@ -37,6 +37,7 @@
 		</action>
 		<!-- 用户权限控制 End -->
 
+		<!-- 销售员相关Action Start -->
 		<action name="userInfoBrief" class="userAction" method="userSaleBriefInfo">
 			<result name="success">/WEB-INF/page/salesmanIndex.jsp</result>
 		</action>
@@ -47,6 +48,7 @@
 			<result name="success">/WEB-INF/page/salesmanIndex.jsp</result>
 			<result name="fail">/WEB-INF/page/salesmanIndex.jsp</result>
 		</action>
+		<!-- 销售员相关Action End -->
 
 		<!-- 更新销售员密码 -->
 		<action name="updateUserPwd" class="userAction" method="updateUserPwd">
@@ -103,13 +105,20 @@
 		</action>
 		<!-- 老板的相关Action End -->
 
-		<!-- 更新用户详细信息 -->
+		<!-- 销售员相关Action Start -->
+		<!-- 更新销售员详细信息 -->
 		<action name="updateSalesmanDetail" class="userAction"
 			method="updateSalesmanDetail">
 			<result name="success" type="json">
 				<param name="root">jsonResult</param>
 			</result>
 		</action>
+		
+		
+
+		<!-- 销售员相关Action End -->
+
+
 		<!-- boss分页查询 -->
 		<action name="selectSalesmenByPage" class="bossAction"
 			method="selectSalesmenByPage">
@@ -126,6 +135,21 @@
 		<action name="deleteSalesman" class="bossAction" method="deleteSalesman">
 			<!-- <result name="success">/WEB-INF/page/salesmanIndex.jsp </result> -->
 		</action>
+		<!-- user分页查询销售记录 -->
+		<action name="selectSalesRecordByPage" class="userAction"
+			method="selectSalesRecordByPage">
+			<!-- <result name="success">/WEB-INF/page/salesmanIndex.jsp </result> -->
+		</action>
+		<!-- user分页查询佣金记录 -->
+		<action name="selectCommissionByPage" class="userAction"
+			method="selectCommissionByPage">
+			<!-- <result name="success">/WEB-INF/page/salesmanIndex.jsp </result> -->
+		</action>
+
+
+
+
+
 
 		<!-- 页面重定向Action -->
 		<action name="bossHistoryReport" class="pageRedirect" method="historyMonthlyReport">

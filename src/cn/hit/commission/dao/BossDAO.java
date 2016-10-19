@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import cn.hit.commission.po.Commission;
+import cn.hit.commission.po.Salesman;
 
 public class BossDAO extends BaseHibernateDAO implements IBossDAO {
 

@@ -93,6 +93,7 @@
 	<bean id="userAction" class="cn.hit.commission.action.UserAction"
 		scope="prototype">
 		<property name="ser" ref="userService" />
+		<property name="loginService" ref="loginService" />
 	</bean>
 	<bean id="saleAction" class="cn.hit.commission.action.SaleAction"
 		scope="prototype">

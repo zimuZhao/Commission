@@ -249,11 +249,37 @@ public class UserService implements IUserService {
 		boolean flag = dao.updateUserPwd(man);
 		return flag;
 	}
-	
+
 	@Override
 	public Salesman updateSalesmanDetail(Salesman salesman) {
 		// TODO Auto-generated method stub
 		return dao.updateSalesman(salesman);
+	}
+
+	@Override
+	public List<Salesrecord> selectSalesRecordBypage(int salesmanID, String startTime, String endTime, int pageSize,
+			int pageNum) {
+		// TODO Auto-generated method stub
+		return dao.selectSalesRecordBypage(salesmanID, startTime, endTime, pageSize, pageNum);
+	}
+
+	@Override
+	public int selectSalesRecordCount(int salesmanID, int pageSize) {
+		// TODO Auto-generated method stub
+		return dao.selectSalesRecordCount(salesmanID, pageSize);
+	}
+
+	@Override
+	public List<Commission> selectCommissionBypage(int salesmanID, String startTime, String endTime, int pageSize,
+			int pageNum) {
+		// TODO Auto-generated method stub
+		return dao.selectCommissionBypage(salesmanID, startTime, endTime, pageSize, pageNum);
+	}
+
+	@Override
+	public int selectCommissionCount(int salesmanID, int pageSize) {
+		// TODO Auto-generated method stub
+		return dao.selectCommissionCount(salesmanID, pageSize);
 	}
 
 }

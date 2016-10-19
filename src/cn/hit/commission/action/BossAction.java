@@ -32,7 +32,7 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 	private Map<String, Object> jsonResult;
 
 	private HttpServletRequest request;
-	private String pageSize;
+	
 	private String pageNum;
 	private String salesmanID;
 	private Salesman salesman;
@@ -54,14 +54,6 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
-	}
-
-	public String getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(String pageSize) {
-		this.pageSize = pageSize;
 	}
 
 	public String getPageNum() {
@@ -302,27 +294,22 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 		return "success";
 	}
 
-	// 分页查询销售员
+	// 查询销售员（分页）
 	public String selectSalesmenByPage() {
 		if ("".equals(pageNum) || pageNum == null) {
 			pageNum = "1";
 		}
-		if ("".equals(pageSize) || pageSize == null) {
-			pageSize = "10";
-		}
-		List<Salesman> salesmanList = service.selectSalesmenBypage(Integer.parseInt(pageSize),
-				Integer.parseInt(pageNum));
-		int pageCount = service.selectSalesmenCount(Integer.parseInt(pageSize));
+		List<Salesman> salesmanList = service.selectSalesmenBypage(10,Integer.parseInt(pageNum));
+		int pageCount = service.selectSalesmenCount(10);
 		request.setAttribute("salesmanList", salesmanList);
 		request.setAttribute("pageCount", pageCount);
 
 		return "success";
 	}
 
-	// 删除某个销售员
+	// 删除销售员
 	public String deleteSalesman() {
-		boolean flag = service.deleteSalesman(0);
-		// boolean flag = service.deleteSalesman(Integer.parseInt(salesmanID));
+		boolean flag = service.deleteSalesman(Integer.parseInt(salesmanID));
 		if (flag == true) {
 			return "success";
 		} else {
@@ -331,15 +318,8 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 
 	}
 
-	// boss添加用户
+	// 新增销售员
 	public String addSalesman() {
-		// 测试
-		/*
-		 * salesman = new Salesman(); salesman.setName("100603");
-		 * salesman.setPassword("123"); salesman.setMobile("123111111");
-		 * salesman.setEmail("76769878"); salesman.setLinkman("659709");
-		 * salesman.setAddress("9898878");
-		 */
 		salesman.setDeleteFlag(0);
 		Salesman newsalesman = service.saveSalesman(salesman);
 		if (newsalesman == null) {
@@ -348,16 +328,9 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 		return "success";
 	}
 
-	// boss更新用户
+	// 更新销售员的个人信息
 	public String updateSalesman() {
-		salesman = new Salesman();
-		// 测试
-		/*
-		 * salesman.setSalesmanID(0); salesman.setName("11");
-		 * salesman.setPassword("11"); salesman.setMobile("11");
-		 * salesman.setEmail("11"); salesman.setLinkman("11");
-		 * salesman.setAddress("11");
-		 */
+		
 		Salesman newsalesman = service.updateSalesmanByBoss(salesman);
 		if (newsalesman == null) {
 			return "fail";
@@ -365,31 +338,21 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 		return "success";
 	}
 
-	@Override
-	public void setServletRequest(HttpServletRequest req) {
-		// TODO Auto-generated method stub
-		this.request = req;
-	}
-
 	// 查询历史佣金报表
 	public String queryHistCommission() {
 		if ("".equals(pageNum) || pageNum == null) {
 			pageNum = "1";
 		}
-		if ("".equals(pageSize) || pageSize == null) {
-			pageSize = "10";
-		}
-		startTime = "2016-09-01";
-		endTime = "2016-10-30";
-		int totalPageSize = service.countCommissionPages(Integer.parseInt(pageSize), startTime, endTime);
-		List<Commission> list = service.queryHistCommission(Integer.parseInt(pageSize), Integer.parseInt(pageNum),
-				startTime, endTime);
-		
+//		startTime = "2016-09-01";
+//		endTime = "2016-10-30";
+		int totalPageSize = service.countCommissionPages(10, startTime, endTime);
+		List<Commission> list = service.queryHistCommission(10, Integer.parseInt(pageNum),startTime, endTime);
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		map.put("totalPages", totalPageSize);
-		for(int i = 0; i < list.size(); i++){
+		for (int i = 0; i < list.size(); i++) {
 			Map<String, Object> innerMap = new HashMap<String, Object>();
 			Commission commission = list.get(i);
 			innerMap.put("Num", commission.getCommissionID());
@@ -405,15 +368,16 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 			innerMap.put("totalCommission", commission.getTotalCommission());
 			mapList.add(innerMap);
 		}
-		
+
 		map.put("data", mapList);
 		jsonResult = map;
 
 		return "success";
 	}
-	
+
 	// 按照时间查询地区销售情况（地图显示）
-	public String queryByTownTime(){
+	public String queryByTownTime() {
+
 		boolean status = true;
 		startTime = "2016-09-01";
 		endTime = "2016-10-30";
@@ -421,7 +385,14 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 		map.put("status", status);
 		map.put("result", service.queryByTownTime(startTime, endTime));
 		jsonResult = map;
-		
+
 		return "success";
 	}
+
+	@Override
+	public void setServletRequest(HttpServletRequest req) {
+		// TODO Auto-generated method stub
+		this.request = req;
+	}
+
 }
