@@ -5327,3 +5327,7 @@ span.customSelect.changed {
   width: 100%;
   height: 500px;
 }
+
+.error {
+  color: red;
+}
