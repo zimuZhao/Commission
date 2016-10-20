@@ -5,7 +5,7 @@
  * @param mes
  */
 function hint(type, title, text) {
-	var time = 1500;
+	var time = 2000;
 	var class_name = "growl-info";
 	switch (type) {
 	case "S":
@@ -18,11 +18,11 @@ function hint(type, title, text) {
 		break;
 	case "W":
 		//time = 4000;
-		class_name = "growl-warning gritter-center";
+		class_name = "growl-warning";
 		break;
 	case "D":
 		//time = 4000;
-		class_name = "growl-danger gritter-center";
+		class_name = "growl-danger";
 		break;
 
 	default:

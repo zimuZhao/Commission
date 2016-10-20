@@ -1,12 +1,12 @@
-<!--<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>-->
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<!--<%@ taglib prefix="s" uri="/struts-tags" %>-->
-<!--<%-->
-<!--String path = request.getContextPath();-->
-<!--String basePath = request.getScheme() + "://"-->
-<!--+ request.getServerName() + ":" + request.getServerPort()-->
-<!--+ path + "/";-->
-<!--%>-->
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
 <html>
 <head>
     <base href="<%=basePath%>">
@@ -15,21 +15,21 @@
     <meta name="description" content="Software Testing and Assurance Project - Commission">
     <link rel="shortcut icon" href="img/favicon.png">
 
-    <title>Commission</title>
+    <title>Sales History Report</title>
 
     <!-- Bootstrap CSS -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- bootstrap theme -->
-    <link href="../../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
     <!--external css-->
     <!-- font icon -->
-    <link href="../../css/elegant-icons-style.css" rel="stylesheet"/>
+    <link href="css/elegant-icons-style.css" rel="stylesheet"/>
     <!-- hint style -->
-    <link href="../../css/jquery.gritter.css" rel="stylesheet">
+    <link href="css/jquery.gritter.css" rel="stylesheet">
     <!-- Custom styles -->
-    <link href="../../css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <!-- daterangepicker styles -->
-    <link href="../../css/daterangepicker.css" rel="stylesheet">
+    <link href="css/daterangepicker.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
@@ -52,7 +52,7 @@
         </div>
 
         <!--logo start-->
-        <a href="index.html" class="logo">Salesman <span class="lite">Admin</span></a>
+        <a href="userInfoBrief.action" class="logo">Salesman <span class="lite">Admin</span></a>
         <!--logo end-->
 
         <div class="top-nav notification-row">
@@ -67,13 +67,13 @@
                     <ul class="dropdown-menu extended logout">
                         <div class="log-arrow-up"></div>
                         <li class="eborder-top">
-                            <a href="salesMyProfile.html"><i class="icon_profile"></i> My Profile</a>
+                            <a href="salesMyProfile.jsp"><i class="icon_profile"></i> My Profile</a>
                         </li>
                         <li>
-                            <a href="salesResetPassword.html"><i class="icon_key_alt"></i> Reset Password</a>
+                            <a href="salesResetPassword.jsp"><i class="icon_key_alt"></i> Reset Password</a>
                         </li>
                         <li>
-                            <a href="login.html"><i class="icon_clock_alt"></i> Log Out</a>
+                            <a href="login.jsp"><i class="icon_clock_alt"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -89,20 +89,20 @@
         <div id="sidebar" class="nav-collapse">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu">
-                <li class="">
-                    <a class="" href="salesmanIndex.html">
+                <li class="active">
+                    <a class="" href="userInfoBrief.action">
                         <i class="icon_house_alt"></i> <span>Home</span>
                     </a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="" href="salesHistoryReport.html">
+                    <a class="" href="salesHistoryReport.jsp">
                         <i class="icon_documents_alt"></i> <span>History Report</span>
                     </a>
                 </li>
 
-                <li class="sub-menu active">
-                    <a class="" href="salesCommission.html">
+                <li class="sub-menu">
+                    <a class="" href="salesCommission.jsp">
                         <i class="icon_document_alt"></i> <span>Commission Report</span>
                     </a>
                 </li>
@@ -118,47 +118,15 @@
         <section class="wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><i class="icon_menu-circle_alt"></i>Commission Report</h3>
+                    <h3 class="page-header"><i class="icon_menu-circle_alt"></i>Sales History Report</h3>
                 </div>
 
                 <div class="col-md-4 col-md-offset-8 col-xs-12 m-b-20">
                     <span>Please enter the query time :</span>
-                    <input id="dataRange" class="pull-right form-control" type="text" name="daterange"
-                           value="16/10/2016 - 17/10/2016">
+                    <input id="date-range-picker" class="pull-right form-control" type="text" name="date-range-picker">
                 </div>
 
             </div>
-
-            <!-- 图 starts-->
-            <div class="row">
-                <!-- 销量份额图（上月）starts-->
-                <div class="col-sm-4">
-                    <section class="panel">
-                        <header class="panel-heading">
-                            Sales Proportion
-                        </header>
-                        <div class="panel-body">
-                            <div id="SalesProportion" class="echart-h-300"></div>
-                        </div>
-                    </section>
-                </div>
-                <!-- 销量份额图 ends-->
-
-                <!-- 销量趋势图 （上月）starts-->
-                <div class="col-sm-8">
-                    <section class="panel">
-                        <header class="panel-heading">
-                            Total Commission
-                            <div class="pull-right" id="TotalCom">51$</div>
-                        </header>
-                        <div class="panel-body">
-                            <div id="SalesTrend" class="echart-h-300"></div>
-                        </div>
-                    </section>
-                </div>
-                <!-- 销量趋势图 ends-->
-            </div>
-            <!-- 图 ends-->
 
             <div class="row">
                 <div class="col-lg-12">
@@ -167,43 +135,34 @@
                         <table class="table table-striped table-advance table-hover">
                             <thead>
                             <tr>
+                                <th> Num</th>
                                 <th> Date</th>
-                                <th> Locks</th>
-                                <th> Stocks</th>
-                                <th> Barrels</th>
-                                <!-- 销售额 -->
-                                <th> Sale</th>
-                                <th> basicCommission</th>
-                                <th> midCommission</th>
-                                <th> highCommission</th>
-                                <th> totalCommission</th>
+                                <th> Area</th>
+                                <th> locksNum</th>
+                                <th> stocksNum</th>
+                                <th> barrelsNum</th>
                             </tr>
                             </thead>
-                            <tbody id="visitRank">
+                            <tbody id="salesHistory" class="hidden">
                             <tr>
-                                <td>2016-11-1</td>
-                                <td>14</td>
-                                <td>56</td>
-                                <td>60</td>
-                                <td>500$</td>
-                                <td>100$</td>
-                                <td>0$</td>
-                                <td>0$</td>
-                                <td>100$</td>
+                                <td>{Num}</td>
+                                <td>{Date}</td>
+                                <td>{Area}</td>
+                                <td>{locksNum}</td>
+                                <td>{stocksNum}</td>
+                                <td>{barrelsNum}</td>
                             </tr>
                             </tbody>
                         </table>
 
-                        <table id="haspasstable" class="table table-bordered"
+                        <table  id="paging" class="table table-bordered"
                                style="WORD-BREAK: break-all; WORD-WRAP: break-word;">
-                            <tfoot class="">
+                            <tfoot class="hidden">
                             <tr>
                                 <td>
                                     <ul class="pagination" active="active" disabled="disabled">
                                         <li class="previous"><span aria-hidden="true">Pre</span></li>
-                                        <li class="page">
-                                            <a></a>
-                                        </li>
+                                        <li class="page"><a></a></li>
                                         <li class="next"><span aria-hidden="true">Next</span></li>
                                     </ul>
                                 </td>
@@ -225,21 +184,21 @@
 
 
 <!-- javascripts -->
-<script src="../../js/jquery.js"></script>
-<script src="../../js/bootstrap.min.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <!-- nicescroll -->
-<script src="../../js/jquery.nicescroll.js"></script>
+<script src="js/jquery.nicescroll.js" type="text/javascript"></script>
 <!--custome script for all page-->
-<script src="../../js/scripts.js"></script>
+<script src="js/scripts.js"></script>
 
-<script src="../../js/moment.min.js"></script>
-<script src="../../js/daterangepicker.js"></script>
-<script src="../../js/jquery.gritter.min.js"></script>
-<script src="../../js/custom/hint.js"></script>
-<script src="../../js/custom/Validform.js"></script>
-<script src="../../js/echarts.js"></script>
-<script src="../../js/custom/salesCommission.js"></script>
-<script src="../../js/custom/timepicker.js"></script>
+<script src="js/moment.min.js"></script>
+<script src="js/daterangepicker.js"></script>
+<script src="js/jquery.gritter.min.js"></script>
+<script src="js/jquery.table.js"></script>
+<script src="js/custom/hint.js"></script>
+<script src="js/custom/Validform.js"></script>
+<script src="js/custom/salesHistoryReport.js"></script>
+<script src="js/custom/timepicker.js"></script>
 
 </body>
 </html>

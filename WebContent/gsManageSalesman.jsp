@@ -49,7 +49,7 @@
         </div>
 
         <!--logo start-->
-        <a href="index.html" class="logo">Gunsmith <span class="lite">Admin</span></a>
+        <a href="bossInfoBrief.action" class="logo">Gunsmith <span class="lite">Admin</span></a>
         <!--logo end-->
 
         <div class="top-nav notification-row">
@@ -71,7 +71,7 @@
                         <!--<a href="resetPassword.html"><i class="icon_key_alt"></i> Reset Password</a>-->
                         <!--</li>-->
                         <li>
-                            <a href="login.html"><i class="icon_clock_alt"></i> Log Out</a>
+                            <a href="login.jsp"><i class="icon_clock_alt"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -87,26 +87,26 @@
         <div id="sidebar" class="nav-collapse ">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu">
-                <li class="">
-                    <a class="" href="gunsmithIndex.html">
+                <li class="active">
+                    <a class="" href="bossInfoBrief.action">
                         <i class="icon_house_alt"></i> <span>Home</span>
                     </a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="" href="curMonthlyReport.html">
+                    <a class="" href="curMonthlyReport.jsp">
                         <i class="icon_document_alt"></i> <span>Monthly Report</span>
                     </a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="" href="historyReport.html">
+                    <a class="" href="historyReport.jsp">
                         <i class="icon_documents_alt"></i> <span>History Report</span>
                     </a>
                 </li>
 
-                <li class="sub-menu active">
-                    <a class="" href="gsManageSalesman.html   ">
+                <li class="sub-menu">
+                    <a class="" href="gsManageSalesman.jsp">
                         <i class="icon_genius"></i> <span>Salesman Manage</span>
                     </a>
                 </li>
