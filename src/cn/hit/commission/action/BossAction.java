@@ -8,10 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts2.interceptor.ServletRequestAware;
-
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -20,7 +16,7 @@ import cn.hit.commission.po.Salesman;
 import cn.hit.commission.po.Salesrecord;
 import cn.hit.commission.service.IBossService;
 
-public class BossAction extends ActionSupport implements ServletRequestAware {
+public class BossAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
 	private IBossService service;
@@ -31,9 +27,7 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 	private List<Commission> historyLists = null;
 	private Map<String, Object> jsonResult;
 
-	private HttpServletRequest request;
-	
-	private String pageNum;
+	private String pageNo;
 	private String salesmanID;
 	private Salesman salesman;
 
@@ -56,12 +50,12 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 		this.endTime = endTime;
 	}
 
-	public String getPageNum() {
-		return pageNum;
+	public String getPageNo() {
+		return pageNo;
 	}
 
-	public void setPageNum(String pageNum) {
-		this.pageNum = pageNum;
+	public void setPageNo(String pageNo) {
+		this.pageNo = pageNo;
 	}
 
 	public String getSalesmanID() {
@@ -136,7 +130,11 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 		return "success";
 	}
 
-	// 供货商主页查看今日销售信息
+	/**
+	 * 供货商查看今日销售信息
+	 * 
+	 * @return
+	 */
 	public String todaySalesInfo() {
 		boolean status = false;
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
@@ -198,7 +196,12 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 		return "success";
 	}
 
-	// 销售额的计算方法
+	/**
+	 * 计算销售额
+	 * 
+	 * @param list
+	 * @return
+	 */
 	public float computeSales(List<Salesrecord> list) {
 		int Locks, Stocks, Barrels;
 		float price = 0.0f;
@@ -215,7 +218,11 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 		return price;
 	}
 
-	// 供货商查询上个月的具体销售总量情况(用日销售量统计表会更好）
+	/**
+	 * 供货商查询上个月的具体销售总量情况
+	 * 
+	 * @return
+	 */
 	public String lastMonthInfo() {
 		boolean status = true;
 		List<int[]> list = service.queryLastMonth();
@@ -238,7 +245,11 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 		return "success";
 	}
 
-	// 供货商查询TOP8销售员工
+	/**
+	 * 供货商查询员工销售排行（前8）
+	 * 
+	 * @return
+	 */
 	public String topUserList() {
 		// 查询Commission表,Sort后取出前八名员工
 		boolean status = true;
@@ -252,101 +263,70 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 		return "success";
 	}
 
-	// 供货商查询地区销售排行
+	/**
+	 * 供货商查询地区销售排行（前10）
+	 * 
+	 * @return
+	 */
 	public String topTownList() {
 		// 查询salesrecord表，Sort后取出前十名地区
-		service.queryTopTown();
-		boolean status = true;
-		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		map.put("status", status);
-		resultMap.put("data", service.queryTopUser());
-		map.put("result", service.queryTopTown());
-		jsonResult = map;
+		jsonResult = service.queryTopTown();
+		System.out.println("Boss查询地区销售排行" + jsonResult.toString());
 
 		return "success";
 	}
 
-	// 供货商查询本月销售及佣金报表
+	/**
+	 * 供货商查询本月销售及佣金报表
+	 * 
+	 * @return
+	 */
 	public String searchMonthReport() {
+		boolean status = true;
+		Map<String, Object> map = new HashMap<String, Object>();
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
 		String tmp = dateFormat.format(new Date());
 		commissionLists = service.searchCommission(-1, tmp);
-		if (commissionLists.size() > 0) {
-			this.clearErrorsAndMessages();
-			return "success";
-		} else {
-			this.clearErrorsAndMessages();
-			this.addActionMessage("<script>alert('本月还未有销售员结算！');</script>");
-			return "fail";
+
+		if (commissionLists == null || commissionLists.size() == 0) {
+			status = false;
 		}
+		map.put("status", status);
+		map.put("result", commissionLists);
+		jsonResult = map;
+		System.out.println("本月员工提前结算情况：" + jsonResult.toString());
+
+		return "success";
 	}
 
 	// 供货商查询历史销售及佣金报表
-	public String searchHistoryReport() {
-		historyLists = service.searchCommission(-1, searchDate);
-		if (historyLists.size() > 0) {
-			this.clearErrorsAndMessages();
-		} else {
-			this.clearErrorsAndMessages();
-			this.addActionMessage("<script>alert('该月没有销售及佣金记录！');</script>");
-		}
-		return "success";
-	}
+	// public String searchHistoryReport() {
+	// historyLists = service.searchCommission(-1, searchDate);
+	// if (historyLists.size() > 0) {
+	// this.clearErrorsAndMessages();
+	// } else {
+	// this.clearErrorsAndMessages();
+	// this.addActionMessage("<script>alert('该月没有销售及佣金记录！');</script>");
+	// }
+	// return "success";
+	// }
 
-	// 查询销售员（分页）
-	public String selectSalesmenByPage() {
-		if ("".equals(pageNum) || pageNum == null) {
-			pageNum = "1";
-		}
-		List<Salesman> salesmanList = service.selectSalesmenBypage(10,Integer.parseInt(pageNum));
-		int pageCount = service.selectSalesmenCount(10);
-		request.setAttribute("salesmanList", salesmanList);
-		request.setAttribute("pageCount", pageCount);
-
-		return "success";
-	}
-
-	// 删除销售员
-	public String deleteSalesman() {
-		boolean flag = service.deleteSalesman(Integer.parseInt(salesmanID));
-		if (flag == true) {
-			return "success";
-		} else {
-			return "fail";
-		}
-
-	}
-
-	// 新增销售员
-	public String addSalesman() {
-		salesman.setDeleteFlag(0);
-		Salesman newsalesman = service.saveSalesman(salesman);
-		if (newsalesman == null) {
-			return "fail";
-		}
-		return "success";
-	}
-
-	// 更新销售员的个人信息
-	public String updateSalesman() {
-		
-		Salesman newsalesman = service.updateSalesmanByBoss(salesman);
-		if (newsalesman == null) {
-			return "fail";
-		}
-		return "success";
-	}
-
-	// 查询历史佣金报表
+	/**
+	 * 查看历史佣金报表
+	 * 
+	 * @return
+	 */
 	public String queryHistCommission() {
-		if ("".equals(pageNum) || pageNum == null) {
-			pageNum = "1";
+		if ("".equals(pageNo) || pageNo == null) {
+			pageNo = "1";
 		}
-//		startTime = "2016-09-01";
-//		endTime = "2016-10-30";
+		System.out.println(startTime);
+		System.out.println(endTime);
+		// startTime = "2016-09-01";
+		// endTime = "2016-10-30";
 		int totalPageSize = service.countCommissionPages(10, startTime, endTime);
-		List<Commission> list = service.queryHistCommission(10, Integer.parseInt(pageNum),startTime, endTime);
+		List<Commission> list = service.queryHistCommission(10, Integer.parseInt(pageNo), startTime, endTime);
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -372,27 +352,124 @@ public class BossAction extends ActionSupport implements ServletRequestAware {
 		map.put("data", mapList);
 		jsonResult = map;
 
+		System.out.println("boss查看历史佣金报表" + jsonResult.toString());
+
 		return "success";
 	}
 
-	// 按照时间查询地区销售情况（地图显示）
+	/**
+	 * 按照时间查询地区销售情况（地图显示）
+	 * 
+	 * @return
+	 */
 	public String queryByTownTime() {
+		// startTime = "2016-09-01";
+		// endTime = "2016-10-30";
 
-		boolean status = true;
-		startTime = "2016-09-01";
-		endTime = "2016-10-30";
+		jsonResult = service.queryByTownTime(startTime, endTime);
+		System.out.println("boss查询地区销售情况：" + jsonResult.toString());
+		return "success";
+	}
+
+	/**
+	 * 查看销售员列表
+	 * 
+	 * @return
+	 */
+	public String selectSalesmenByPage() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", status);
-		map.put("result", service.queryByTownTime(startTime, endTime));
+		if ("".equals(pageNo) || pageNo == null) {
+			pageNo = "1";
+		}
+
+		List<Salesman> salesmanList = service.selectSalesmenBypage(10, Integer.parseInt(pageNo));
+		int pageCount = service.selectSalesmenCount(10);
+		List<Salesman> tmpList = salesmanList;
+
+		for (int i = 0; i < tmpList.size(); i++) {
+			tmpList.get(i).setSalesSet(null);
+			tmpList.get(i).setPassword(null);
+		}
+
+		map.put("pageCount", pageCount);
+		map.put("salesmanList", salesmanList);
+
 		jsonResult = map;
 
 		return "success";
 	}
 
-	@Override
-	public void setServletRequest(HttpServletRequest req) {
-		// TODO Auto-generated method stub
-		this.request = req;
+	/**
+	 * 删除指定销售员
+	 * 
+	 * @return
+	 */
+	public String deleteSalesman() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// salesmanID = "1607001";
+		if (salesmanID != null) {
+			boolean flag = service.deleteSalesman(Integer.parseInt(salesmanID));
+			map.put("status", flag);
+			jsonResult = map;
+		}
+
+		return "success";
+	}
+
+	/**
+	 * 添加销售员
+	 * 
+	 * @return
+	 */
+	public String addSalesman() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean status = true;
+		salesman.setDeleteFlag(0);
+		Salesman newsalesman = service.saveSalesman(salesman);
+		if (newsalesman == null) {
+			status = false;
+		}
+		map.put("status", status);
+		jsonResult = map;
+		
+		return "success";
+	}
+
+	/**
+	 * 更新销售员的个人信息
+	 * 
+	 * @return
+	 */
+	public String updateSalesman() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean status = true;
+        Salesman oldsalesman = service.querySalesman(salesman.getSalesmanID());
+        if(oldsalesman == null){
+        	status = false;
+        }else{
+        	if(!"".equals(salesman.getName())){
+        		oldsalesman.setName(salesman.getName());
+        	}
+        	if(!"".equals(salesman.getEmail())){
+        		oldsalesman.setEmail(salesman.getEmail());
+        	}
+        	if(!"".equals(salesman.getAddress())){
+        		oldsalesman.setAddress(salesman.getEmail());
+        	}
+        	if(!"".equals(salesman.getMobile())){
+        		oldsalesman.setMobile(salesman.getMobile());
+        	}
+        	if(!"".equals(salesman.getLinkman())){
+        		oldsalesman.setLinkman(salesman.getLinkman());
+        	}
+        	
+        	service.updateSalesmanByBoss(oldsalesman);
+        }
+		
+		map.put("status", status);
+		jsonResult = map;
+		
+		return "success";
 	}
 
 }

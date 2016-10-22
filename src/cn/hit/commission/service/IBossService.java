@@ -18,20 +18,22 @@ public interface IBossService {
 
 	public List<Map<String, Object>> queryTopUser();
 
-	public List<Map<String, Object>> queryTopTown();
+	public Map<String, Object> queryTopTown();
 
 	public List<Commission> searchCommission(int salesmanID, String date);
 
 	// boss查询历史佣金报表
 	public List<Commission> queryHistCommission(int pageSize, int pageNum, String startTime, String endTime);
+	
 	// 查询指定时间内的佣金报表的总页数
 	public int countCommissionPages(int pageSize, String startTime, String endTime);
 	
 	// 查询指定时间内地区销售情况
-	public List queryByTownTime(String startTime, String endTime);
+	public Map<String,Object> queryByTownTime(String startTime, String endTime);
 
 	// boss查询所有销售员并分页显示
 	public List<Salesman> selectSalesmenBypage(int pageSize, int pageNum);
+	
 	// 查询销售员总页数
 	public int selectSalesmenCount(int pageSize);
 
@@ -43,4 +45,8 @@ public interface IBossService {
 
 	// 更新销售员个人信息
 	public Salesman updateSalesmanByBoss(Salesman salesman);
+	
+	// 查询销售员个人信息 
+	public Salesman querySalesman(int salesmanID);
+	
 }

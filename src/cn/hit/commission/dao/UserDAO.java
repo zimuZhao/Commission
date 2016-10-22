@@ -73,7 +73,7 @@ public class UserDAO extends BaseHibernateDAO implements IUserDAO {
 	}
 
 	@Override
-	public List findList(String hql) {
+	public List<Object[]> findList(String hql) {
 		Transaction tran = null;
 		Session session = null;
 		try {
@@ -81,7 +81,8 @@ public class UserDAO extends BaseHibernateDAO implements IUserDAO {
 			tran = session.beginTransaction();
 			Query queryObject = session.createQuery(hql);
 			tran.commit();
-			return queryObject.list();
+			List<Object[]> list = queryObject.list();
+			return list;
 		} catch (RuntimeException re) {
 			re.printStackTrace();
 		} finally {
@@ -118,8 +119,7 @@ public class UserDAO extends BaseHibernateDAO implements IUserDAO {
 			tran = session.beginTransaction();
 			String hql = "update Salesman s set s.password = " + salesman.getPassword() + "where s.salesmanID = "
 					+ salesman.getSalesmanID();
-			Query queryObject = session.createQuery(hql);
-			Salesman newSalesman = (Salesman) session.get(Salesman.class, salesman.getSalesmanID());
+			session.createQuery(hql).executeUpdate();
 			tran.commit();
 			return true;
 		} catch (RuntimeException re) {

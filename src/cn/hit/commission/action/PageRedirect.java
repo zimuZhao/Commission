@@ -21,18 +21,33 @@ public class PageRedirect extends ActionSupport{
 		return "success";
 	}
 	
+	// 重定向至curMonthlyReport.jsp
+	public String currentMonthlyReport(){
+		return "success";
+	}
+	
 	// 重定向至myProfile.jsp
 	public String myProfile(){
 		return "success";
 	}
 	
-	// 重定向至resetPassword.jsp
-	public String resetPassword(){
+	// 重定向至salesmanIndex.jsp
+	public String salesmanIndex(){
 		return "success";
 	}
 	
-	// 重定向至salesmanIndex.jsp
-	public String salesmanIndex(){
+	// 重定向至salesResetPassword.jsp
+	public String salesResetPassword(){
+		return "success";
+	}
+	
+	// 重定向至salesHistoryReport.jsp
+	public String salesHistoryReport(){
+		return "success";
+	}
+	
+	// 重定向至salesCommission.jsp
+	public String salesCommission(){
 		return "success";
 	}
 	

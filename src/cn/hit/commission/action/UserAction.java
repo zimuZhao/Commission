@@ -206,8 +206,13 @@ public class UserAction extends ActionSupport {
 		return "success";
 	}
 
-	// 更新销售员登陆密码
+	/**
+	 * 更新销售员登陆密码
+	 * @return
+	 */
 	public String updateUserPwd() {
+//		oldpassword = "123456";
+//		newpassword = "654321";
 		Map<String, Object> map = new HashMap<String, Object>();
 		String status = "false";
 		ActionContext ctx = ActionContext.getContext();
@@ -231,7 +236,10 @@ public class UserAction extends ActionSupport {
 		return "success";
 	}
 
-	// 查询当前销售员的销售信息
+	/**
+	 * 查询当前销售员的销售信息
+	 * @return
+	 */
 	public String selectSalesRecordByPage(){
 		if ("".equals(pageNum) || pageNum == null) {
 			pageNum = "1";
@@ -266,7 +274,11 @@ public class UserAction extends ActionSupport {
 		return "success";
 	}
 
-	// 查询当前销售员的佣金报表
+	/**
+	 * 查询当前销售员的佣金报表
+	 * 
+	 * @return
+	 */
 	public String selectCommissionByPage(){
 		if ("".equals(pageNum) || pageNum == null) {
 			pageNum = "1";
@@ -299,10 +311,15 @@ public class UserAction extends ActionSupport {
 		
 		map.put("data", mapList);
 		jsonResult = map;
+		
 		return "success";
 	}
 	
-	// 更新销售员信息
+	/**
+	 * 更新销售员的个人信息
+	 * 
+	 * @return
+	 */
 	public String updateSalesmanDetail() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ActionContext ctx = ActionContext.getContext();

@@ -27,7 +27,7 @@ function getFour() {
 
                     //Today
                     $('#ToPrice').html(data.result.total.price);
-                    $('#LSPrice').html("LastWeek::" + data.result.total.lastWeek);
+                    $('#LSPrice').html("LastWeek:" + data.result.total.lastWeek);
                     $('#LMPrice').html("LastMoon:" + data.result.total.lastMonth);
 
                 }

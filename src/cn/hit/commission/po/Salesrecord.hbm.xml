@@ -18,16 +18,14 @@
 		<property name="barrelsnum" type="int">
 			<column name="barrelsnum" />
 		</property>
-		<!-- <property name="salesmanID" type="int">
-			<column name="salesmanID" />
-		</property> -->
+		<!-- <property name="salesmanID" type="int"> <column name="salesmanID" 
+			/> </property> -->
 		<many-to-one name="salesmanID" column="salesmanID" lazy="false"></many-to-one>
 		<property name="saleDate" type="date">
-			<column name="saleDate"/>
+			<column name="saleDate" />
 		</property>
-		<!-- <property name="productsId" type="int">
-			<column name="productsId" />
-		</property> -->
+		<!-- <property name="productsId" type="int"> <column name="productsId" 
+			/> </property> -->
 		<many-to-one name="productsId" column="productsID" lazy="false"></many-to-one>
 		<property name="town" type="string">
 			<column name="town" length="50" />
@@ -39,7 +37,7 @@
 			<column name="description" length="50" />
 		</property>
 		<property name="deleteFlag" type="int">
-			<column name="deleteFlag"/>
+			<column name="deleteFlag" />
 		</property>
 	</class>
 </hibernate-mapping>

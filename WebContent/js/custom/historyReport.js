@@ -1948,7 +1948,7 @@ var node = salesHistory.html();
 function getHistory(start, end, pageNo) {
     $.ajax({
         type: "POST",
-        url: "historyAction",
+        url: "queryHistCommission",
         dataType: "json",
         data: {
             startTime: start,

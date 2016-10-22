@@ -80,6 +80,7 @@ public class SaleAction extends ActionSupport {
 		this.barrelsnum = barrelsnum;
 	}
 
+	// 销售员提交销售记录
 	public String saveSalesrecord() {
 		Salesrecord record = new Salesrecord();
 		Commission commission = new Commission();
@@ -109,6 +110,7 @@ public class SaleAction extends ActionSupport {
 		} else {
 			if (locksnum == -1) {
 				commission = ser.computeCommission(salesman, new Date());
+				record.setLocksnum(0);
 				if (ser.saveCommission(commission) && ser.saveSalesrecord(record)) {
 					this.clearErrorsAndMessages();
 					this.addActionMessage("<script>alert('本月结算成功！');</script>");
@@ -130,6 +132,7 @@ public class SaleAction extends ActionSupport {
 					this.addActionMessage("<script>alert('已达到今日最大电报发送数！');</script>");
 					return "fail";
 				}
+				
 				saveRecordSucc = ser.saveSalesrecord(record);
 				lists = ser.curMonthSaleRecord(salesman.getSalesmanID());
 				if (saveRecordSucc) {

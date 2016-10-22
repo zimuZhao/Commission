@@ -109,10 +109,10 @@ public class BossService implements IBossService {
 		return list;
 	}
 
-	@Override
 	/**
 	 * 查询上个月的销售情况
 	 */
+	@Override
 	public List<int[]> queryLastMonth() {
 
 		List<Salesrecord> list = null;
@@ -151,7 +151,6 @@ public class BossService implements IBossService {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(recordAdd.getSaleDate());
 			index = recordAdd.getSaleDate().getDate() - 1;
-			System.out.println("计算每天的销售记录：" + index);
 
 			locksnum = YLocks[index];
 			stocksnum = YStocks[index];
@@ -172,10 +171,10 @@ public class BossService implements IBossService {
 		return salesList;
 	}
 
-	@Override
 	/*
-	 * 查询排行前8的员工名单
+	 * 查询排行前8的员工名单(Service)
 	 */
+	@Override
 	public List<Map<String, Object>> queryTopUser() {
 		List<Commission> list = new ArrayList<Commission>();
 		// 计算当前日期前一天的日期
@@ -208,30 +207,47 @@ public class BossService implements IBossService {
 			jsonList.add(map);
 		}
 
+		System.out.println("查询排行前8的员工名单," + jsonList.toString());
+
 		return jsonList;
 	}
 
+	/**
+	 * 查询销量排行前10的地区(Service)
+	 */
 	@Override
-	public List<Map<String, Object>> queryTopTown() {
-		List<Map<String, Object>> wrapper = new ArrayList<Map<String, Object>>();
-		Map<String, Object> map = new HashMap<String, Object>();
+	public Map<String, Object> queryTopTown() {
+		Map<String, Object> wrapper = new HashMap<String, Object>();
 		String hql = "select s.town,sum(s.num) from Salesrecord s group by s.town order by sum(s.num) desc ";
-		List queryList = dao.findList(hql);
+		List<Object[]> queryList = dao.findList(hql);
 
-		for (int i = 0; i < queryList.size(); i++) {
-			System.out.println(queryList.get(i).toString());
+		boolean status = true;
+
+		List<String> towns = new ArrayList<String>();
+		List<Long> sales = new ArrayList<Long>();
+		Map<String, Object> innerMap = new HashMap<String, Object>();
+
+		if (queryList == null) {
+			status = false;
+		} else {
+			for (Object[] object : queryList) {
+				String name = (String) object[0];
+				Long num = (Long) object[1];
+				towns.add(name);
+				sales.add(num);
+				System.out.println(name);
+			}
+			innerMap.put("name", towns);
+			innerMap.put("data", sales);
 		}
-
-		map.put("data", queryList);
-		wrapper.add(map);
+		wrapper.put("status", status);
+		wrapper.put("result", innerMap);
 
 		return wrapper;
 	}
 
 	public List<Salesrecord> queryLastMonthReport() {
 		List<Salesrecord> list = null;
-
-		// 计算当前日期前一天的日期
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DAY_OF_MONTH, -1);
 		Date lastMonth = cal.getTime();
@@ -292,34 +308,49 @@ public class BossService implements IBossService {
 		return totalSize;
 	}
 
+	/*
+	 * 查询指定时间区间内，各地区的销售情况
+	 * (non-Javadoc)
+	 * @see cn.hit.commission.service.IBossService#queryByTownTime(java.lang.String, java.lang.String)
+	 */
 	@Override
-	public List queryByTownTime(String startTime, String endTime) {
-		List<Map<String, Object>> wrapper = new ArrayList<Map<String, Object>>();
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		String hql = "select s.town,sum(s.num) from Salesrecord s where s.saleDate<='" + endTime
-				+ "' and s.saleDate>='" + startTime + "' group by s.town";
+	public Map<String, Object> queryByTownTime(String startTime, String endTime) {
+		Map<String, Object> wrapper = new HashMap<String, Object>();
+		Map<String, Object> innerMap = new HashMap<String, Object>();
+
+		boolean status = true;
+		String hql = "select s.town,sum(s.num) from Salesrecord s where s.saleDate<='" + endTime + "' and s.saleDate>='"
+				+ startTime + "' group by s.town";
 		List<Object[]> queryList = dao.findList(hql);
-		
 		List<String> towns = new ArrayList<String>();
 		List<Long> sales = new ArrayList<Long>();
-		
-		for(Object[] object: queryList){
-			String name = (String)object[0];
-			Long num = (Long)object[1];
-			towns.add(name);
-			sales.add(num);
-			System.out.println(name);
+
+		if (queryList != null) {
+			for (Object[] object : queryList) {
+				String name = (String) object[0];
+				Long num = (Long) object[1];
+				towns.add(name);
+				sales.add(num);
+			}
+		}else{
+			status = false;
 		}
-		
-		Map<String,Object> innerMap = new HashMap<String, Object>();
+
+		wrapper.put("status", status);
 		innerMap.put("name", towns);
 		innerMap.put("data", sales);
 
-		map.put("result", innerMap);
-		wrapper.add(map);
+		wrapper.put("result", innerMap);
 
 		return wrapper;
+	}
+
+	@Override
+	public Salesman querySalesman(int salesmanID) {
+		// TODO Auto-generated method stub
+		Salesman man = dao.findBySalesID(salesmanID);
+		
+		return man;
 	}
 
 }

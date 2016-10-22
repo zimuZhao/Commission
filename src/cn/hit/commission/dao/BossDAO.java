@@ -36,11 +36,11 @@ public class BossDAO extends BaseHibernateDAO implements IBossDAO {
 		}
 	}
 
-	@Override
 	/*
 	 * 按时间查询历史佣金情况
 	 * @see cn.hit.commission.dao.IBossDAO#queryHistCommission(int, int, java.lang.String, java.lang.String)
 	 */
+	@Override
 	public List<Commission> queryHistCommission(int pageSize, int pageNum, String startTime, String endTime) {
 		Transaction tran = null;
 		Session session = null;
@@ -51,6 +51,23 @@ public class BossDAO extends BaseHibernateDAO implements IBossDAO {
 			List<Commission> list = session.createQuery(hql).setFirstResult((pageNum - 1) * pageSize).setMaxResults(pageSize).list();
 			tran.commit();
 			return list;
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			return null;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public Salesman findBySalesID(int salesmanID) {
+		Transaction tran = null;
+		Session session = null;
+		try {
+			session = getSession();
+			tran = session.beginTransaction();
+			Salesman salesman = (Salesman) session.get(Salesman.class, salesmanID);
+			tran.commit();
+			return salesman;
 		} catch (RuntimeException re) {
 			re.printStackTrace();
 			return null;
