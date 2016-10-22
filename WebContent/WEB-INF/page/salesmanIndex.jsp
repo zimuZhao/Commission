@@ -43,7 +43,7 @@
 		</div>
 
 		<!--logo start-->
-		<a href="index.html" class="logo">Salesman <span class="lite">Admin</span></a>
+		<a href="userInfoBrief.action" class="logo">Salesman <span class="lite">Admin</span></a>
 		<!--logo end-->
 
 		<div class="top-nav notification-row">
@@ -58,13 +58,13 @@
 					<ul class="dropdown-menu extended logout">
 						<div class="log-arrow-up"></div>
 						<li class="eborder-top">
-							<a href="salesMyProfile.html"><i class="icon_profile"></i> My Profile</a>
+							<a href="salesMyProfile.jsp"><i class="icon_profile"></i> My Profile</a>
 						</li>
 						<li>
-							<a href="salesResetPassword.html"><i class="icon_key_alt"></i> Reset Password</a>
+							<a href="salesResetPassword.jsp"><i class="icon_key_alt"></i> Reset Password</a>
 						</li>
 						<li>
-							<a href="login.html"><i class="icon_clock_alt"></i> Log Out</a>
+							<a href="login.jsp"><i class="icon_clock_alt"></i> Log Out</a>
 						</li>
 					</ul>
 				</li>
@@ -81,19 +81,19 @@
 			<!-- sidebar menu start-->
 			<ul class="sidebar-menu">
 				<li class="active">
-					<a class="" href="salesmanIndex.html">
+					<a class="" href="userInfoBrief.action">
 						<i class="icon_house_alt"></i> <span>Home</span>
 					</a>
 				</li>
 
 				<li class="sub-menu">
-					<a class="" href="salesHistoryReport.html">
+					<a class="" href="salesHistoryReport.jsp">
 						<i class="icon_documents_alt"></i> <span>History Report</span>
 					</a>
 				</li>
 
 				<li class="sub-menu">
-					<a class="" href="salesCommission.html">
+					<a class="" href="salesCommission.jsp">
 						<i class="icon_document_alt"></i> <span>Commission Report</span>
 					</a>
 				</li>

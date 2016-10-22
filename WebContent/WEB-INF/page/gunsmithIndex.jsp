@@ -17,13 +17,13 @@
     <title>Gunsmith Admin</title>
 
     <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <!-- bootstrap theme -->
-    <link href="css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../../css/bootstrap-theme.css" rel="stylesheet">
     <!-- font icon -->
-    <link href="css/elegant-icons-style.css" rel="stylesheet"/>
+    <link href="../../css/elegant-icons-style.css" rel="stylesheet"/>
     <!-- Custom styles -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
@@ -44,7 +44,7 @@
         </div>
 
         <!--logo start-->
-        <a href="index.html" class="logo">Gunsmith <span class="lite">Admin</span></a>
+        <a href="bossInfoBrief.action" class="logo">Gunsmith <span class="lite">Admin</span></a>
         <!--logo end-->
 
         <div class="top-nav notification-row">
@@ -66,7 +66,7 @@
                         <!--<a href="resetPassword.html"><i class="icon_key_alt"></i> Reset Password</a>-->
                         <!--</li>-->
                         <li>
-                            <a href="login.html"><i class="icon_clock_alt"></i> Log Out</a>
+                            <a href="login.jsp"><i class="icon_clock_alt"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -83,25 +83,25 @@
             <!-- sidebar menu start-->
             <ul class="sidebar-menu">
                 <li class="active">
-                    <a class="" href="gunsmithIndex.html">
+                    <a class="" href="bossInfoBrief.action">
                         <i class="icon_house_alt"></i> <span>Home</span>
                     </a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="" href="curMonthlyReport.html">
+                    <a class="" href="curMonthlyReport.jsp">
                         <i class="icon_document_alt"></i> <span>Monthly Report</span>
                     </a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="" href="historyReport.html">
+                    <a class="" href="historyReport.jsp">
                         <i class="icon_documents_alt"></i> <span>History Report</span>
                     </a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="" href="gsManageSalesman.html   ">
+                    <a class="" href="gsManageSalesman.jsp">
                         <i class="icon_genius"></i> <span>Salesman Manage</span>
                     </a>
                 </li>
@@ -123,8 +123,9 @@
                         <span class="col-sm-5 font">Locks</span>
 
                         <div class="col-sm-7">
-                            <div class="count" data-toggle="tooltip" title="Locks price Today">Price</div>
-                            <div class="title" data-toggle="tooltip" title="Locks sales amount Today">num</div>
+                            <div class="count" id="LPrice" data-toggle="tooltip" title="Locks price Today"></div>
+                            <div class="title" id="LNum" data-toggle="tooltip" title="Locks sales amount Today">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -135,8 +136,10 @@
                         <span class="col-sm-5 font">Stocks</span>
 
                         <div class="col-sm-7">
-                            <div class="count" data-toggle="tooltip" title="Stocks prize Today">Price</div>
-                            <div class="title" data-toggle="tooltip" title="Stocks sales amount Today">num</div>
+                            <div class="count" id="SPrice" data-toggle="tooltip" title="Stocks prize Today">
+                            </div>
+                            <div class="title" id="SNum" data-toggle="tooltip" title="Stocks sales amount Today">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,8 +150,11 @@
                         <span class="col-sm-5 font">Barrels</span>
 
                         <div class="col-sm-7">
-                            <div class="count" data-toggle="tooltip" title="Barrels prize Today">Price</div>
-                            <div class="title" data-toggle="tooltip" title="Barrels sales amount Today">num</div>
+                            <div class="count" id="BPrice" data-toggle="tooltip" title="Barrels prize Today">
+                            </div>
+                            <div class="title" id="BNum" data-toggle="tooltip" title="Barrels sales amount Today">
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -159,13 +165,13 @@
                         <div class="row">
                             <span class="col-sm-6 font">Today</span>
 
-                            <div class="col-sm-6 today-title" data-toggle="tooltip" title="Total prize today">Price
+                            <div class="col-sm-6 today-title" id="ToPrice" data-toggle="tooltip"
+                                 title="Total prize today">
                             </div>
                         </div>
 
-                        <div class="today-title" data-toggle="tooltip" title="Total prize LastWeek">LastWeek:Price</div>
-                        <div class="today-title" data-toggle="tooltip" title="Total prize LastWeek">LastMonth:Price
-                        </div>
+                        <div class="today-title" id="LSPrice" data-toggle="tooltip" title="Total prize LastWeek"></div>
+                        <div class="today-title" id="LMPrice" data-toggle="tooltip" title="Total prize LastWeek"></div>
                     </div>
                 </div>
                 <!-- Today ends-->
@@ -220,82 +226,15 @@
                                     <th>TotalPrize</th>
                                     <th>Commission</th>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>张三</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>5645$</td>
-                                    <td>1000&</td>
+                                <tr id="queryTopUser">
+                                    <td>{num}</td>
+                                    <td>{Salesman}</td>
+                                    <td>{LocksNum}</td>
+                                    <td>{StocksNum}</td>
+                                    <td>{BarrelsNum}</td>
+                                    <td>{TotalPrice}</td>
+                                    <td>{Commission}</td>
                                 </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>张三</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>5645$</td>
-                                    <td>1000&</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>张三</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>5645$</td>
-                                    <td>1000&</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>张三</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>5645$</td>
-                                    <td>1000&</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>张三</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>5645$</td>
-                                    <td>1000&</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>张三</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>5645$</td>
-                                    <td>1000&</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>张三</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>5645$</td>
-                                    <td>1000&</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>张三</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>50</td>
-                                    <td>5645$</td>
-                                    <td>1000&</td>
-                                </tr>
-
-
-                                </tbody>
                             </table>
                         </section>
                     </div>
@@ -332,227 +271,6 @@
 <script src="js/scripts.js"></script>
 <!-- echarts -->
 <script src="js/echarts.js"></script>
-
-<script>
-
-    var salesChart = echarts.init(document.getElementById('SalesTrend'));
-    var pieChart = echarts.init(document.getElementById('SalesProportion'));
-    var barChart = echarts.init(document.getElementById('SalesArea'));
-    getSalesTrendLastMonth();
-    getSalesProportionLastMonth();
-    getSalesAreaLastMonth();
-
-    /**
-     * 堆叠折线图 销售趋势(上月)
-     */
-    function getSalesTrendLastMonth() {
-////        $.ajax({
-////            type: "POST",
-////            url: "",
-////            dataType: "json",
-////            data: {siteId: siteID, urlId: urlID, start: DRPstart, end: DRPend, period: Period},
-////            async: true,
-////            cache: false,
-////            success: function (data) {
-////                if (data.status) {
-////                    if (data.result == "[]") {
-////                    } else {
-        salesChart.setOption({
-            title: {
-                text: 'Sales Trend'
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data: ['Locks', 'Stocks', 'Barrels']
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            toolbox: {
-                feature: {
-                    saveAsImage: {}
-                }
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: ['1', '2', '3', '4', '5', '6', '7']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                    name: 'Locks',
-                    type: 'line',
-                    stack: '总量',
-                    data: [120, 132, 101, 134, 90, 230, 210]
-                },
-                {
-                    name: 'Stocks',
-                    type: 'line',
-                    stack: '总量',
-                    data: [220, 182, 191, 234, 290, 330, 310]
-                },
-                {
-                    name: 'Barrels',
-                    type: 'line',
-                    stack: '总量',
-                    data: [150, 232, 201, 154, 190, 330, 410]
-                }
-            ]
-        });
-//                    }
-//                } else {
-//                    hint("D", data.result);
-//                }
-//                loading(8);
-//            },
-//            error: function (data) {
-//                loading(8);
-//                hint("D", data.result);
-//            }
-//        });
-    }
-
-    /**
-     * 饼图 销售占比(上月)
-     */
-    function getSalesProportionLastMonth() {
-////        $.ajax({
-////            type: "POST",
-////            url: "",
-////            dataType: "json",
-////            data: {siteId: siteID, urlId: urlID, start: DRPstart, end: DRPend, period: Period},
-////            async: true,
-////            cache: false,
-////            success: function (data) {
-////                if (data.status) {
-////                    if (data.result == "[]") {
-////                    } else {
-        pieChart.setOption({
-            title: {
-                text: 'Sales Proportion',
-                x: 'center'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
-            },
-            legend: {
-                x: 'center',
-                y: 'bottom',
-                data: ['Locks', 'Stocks', 'Barrels']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    saveAsImage: {show: true}
-                }
-            },
-            calculable: true,
-            series: [
-                {
-                    name: 'Last Month',
-                    type: 'pie',
-                    radius: [30, 110],
-                    roseType: 'area',
-                    data: [
-                        {value: 3371, name: 'Locks'},
-                        {value: 3371, name: 'Stocks'},
-                        {value: 1786, name: 'Barrels'}
-                    ]
-                }
-            ]
-        });
-//                    }
-//                } else {
-//                    hint("D", data.result);
-//                }
-//                loading(8);
-//            },
-//            error: function (data) {
-//                loading(8);
-//                hint("D", data.result);
-//            }
-//        });
-    }
-
-    /**
-     * 柱状图 地区销售情况(上月) TOP 10
-     */
-    function getSalesAreaLastMonth() {
-////        $.ajax({
-////            type: "POST",
-////            url: "",
-////            dataType: "json",
-////            data: {siteId: siteID, urlId: urlID, start: DRPstart, end: DRPend, period: Period},
-////            async: true,
-////            cache: false,
-////            success: function (data) {
-////                if (data.status) {
-////                    if (data.result == "[]") {
-////                    } else {
-        barChart.setOption({
-            color: ['#1a2732'],
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: ['town1', 'town2', 'town3', 'town4', 'town5', 'town6', 'town7', 'town8', 'town9', 'town10'],
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            series: [
-                {
-                    name: 'Total Number',
-                    type: 'bar',
-                    data: [10, 52, 200, 334, 390, 330, 220, 330, 50, 40]
-                }
-            ]
-        });
-//                    }
-//                } else {
-//                    hint("D", data.result);
-//                }
-//                loading(8);
-//            },
-//            error: function (data) {
-//                loading(8);
-//                hint("D", data.result);
-//            }
-//        });
-    }
-
-    window.onresize = function () {
-        salesChart.resize();
-        pieChart.resize();
-        barChart.resize();
-    }
-
-</script>
+<script src="js/custom/gunsmithIndex.js"></script>
 </body>
 </html>
