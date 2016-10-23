@@ -14,21 +14,21 @@ function getFour() {
                 if (data.result == "[]") {
                 } else {
                     //Locks
-                    $('#LPrice').html(data.result.data[0].price);
+                    $('#LPrice').html("$" + data.result.data[0].price);
                     $('#LNum').html(data.result.data[0].num);
 
                     //Stocks
-                    $('#SPrice').html(data.result.data[1].price);
+                    $('#SPrice').html("$" + data.result.data[1].price);
                     $('#SNum').html(data.result.data[1].num);
 
                     //Barrels
-                    $('#BPrice').html(data.result.data[2].price);
+                    $('#BPrice').html("$" + data.result.data[2].price);
                     $('#BNum').html(data.result.data[2].num);
 
                     //Today
-                    $('#ToPrice').html(data.result.total.price);
-                    $('#LSPrice').html("LastWeek:" + data.result.total.lastWeek);
-                    $('#LMPrice').html("LastMoon:" + data.result.total.lastMonth);
+                    $('#ToPrice').html("$" + data.result.total.price);
+                    $('#LSPrice').html("LastWeek: $" + data.result.total.lastWeek);
+                    $('#LMPrice').html("LastMoon: $" + data.result.total.lastMonth);
 
                 }
             }
@@ -129,7 +129,7 @@ function getSalesTrendLastMonth() {
             }
             //loading(8);
         },
-        error: function (data) {
+        error: function () {
             //loading(8);
             hint("D", "Access to lastMonthInfo failed!");
         }
@@ -177,7 +177,7 @@ function getSalesProportionLastMonth(Ltotal, Stotal, Btotal) {
     });
 }
 
-/** url调用的后台接口有误
+/**
  * 柱状图 地区销售情况(上月) TOP 10
  */
 function getSalesAreaLastMonth() {
@@ -274,11 +274,11 @@ function salesCommission() {
                     queryTopUser.removeClass("hidden");
                 }
             } else {
-                hint("D", data.result);
+                hint("D", "The data.status return false!");
             }
         },
-        error: function (data) {
-            hint("D", data.result);
+        error: function () {
+            hint("D", "Request failed!");
         }
     });
 }

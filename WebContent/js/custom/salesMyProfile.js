@@ -50,7 +50,7 @@ function updateUser() {
     console.log("USER: " + newSalesman);
     $.ajax({
         type: "POST",
-        url: "updatenewSalesman",
+        url: "updateSalesmanDetail",
         dataType: "json",
         contentType: "application/json",
         data: newSalesman,
