@@ -32,10 +32,10 @@ function getFour() {
 
                 }
             }
-            //loading(8);
+            loading(4);
         },
         error: function (data) {
-            //loading(8);
+            loading(4);
             hint("D", "Access to today's sales data failed!");
         }
     });
@@ -127,10 +127,10 @@ function getSalesTrendLastMonth() {
             } else {
                 hint("D", "data.result is empty");
             }
-            //loading(8);
+            loading(4);
         },
         error: function () {
-            //loading(8);
+            loading(4);
             hint("D", "Access to lastMonthInfo failed!");
         }
     });
@@ -231,10 +231,10 @@ function getSalesAreaLastMonth() {
             } else {
                 hint("D", "data.result is empty!");
             }
-            //loading(8);
+            loading(4);
         },
         error: function (data) {
-            //loading(8);
+            loading(4);
             hint("D", "Access to queryTopTownList failed!");
         }
     });
@@ -276,8 +276,10 @@ function salesCommission() {
             } else {
                 hint("D", "The data.status return false!");
             }
+            loading(4);
         },
         error: function () {
+            loading(4);
             hint("D", "Request failed!");
         }
     });

@@ -38,6 +38,17 @@
 </head>
 
 <body>
+
+<!-- Preloader -->
+<div class="mask">
+    <div id="loading-box">
+        <div class="logo-pinner logo"></div>
+        <div class="ibox"></div>
+        <div class="iLoading"></div>
+    </div>
+</div>
+<!--/Preloader -->
+
 <!-- container section start -->
 <section id="container" class="">
 
@@ -128,6 +139,22 @@
             </div>
 
             <div class="row">
+                <!-- 区域地图统计（上月）starts-->
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            World Sales
+                        </header>
+                        <div class="panel-body">
+                            <div id="worldSales" class="echart-h-500"></div>
+                        </div>
+                    </section>
+                </div>
+                <!-- 区域地图统计（上月）ends-->
+            </div>
+
+
+            <div class="row">
                 <div class="col-lg-12">
 
                     <section class="panel">
@@ -188,21 +215,6 @@
                 </div>
             </div>
 
-            <div class="row">
-                <!-- 区域地图统计（上月）starts-->
-                <div class="col-sm-12">
-                    <section class="panel">
-                        <header class="panel-heading">
-                            World Sales
-                        </header>
-                        <div class="panel-body">
-                            <div id="worldSales" class="echart-h-500"></div>
-                        </div>
-                    </section>
-                </div>
-                <!-- 区域地图统计（上月）ends-->
-            </div>
-
         </section>
     </section>
     <!--main content end-->
@@ -225,6 +237,7 @@
 <script src="js/jquery.gritter.min.js"></script>
 <script src="js/jquery.table.js"></script>
 <script src="js/custom/hint.js"></script>
+<script src="js/custom/loading.js"></script>
 <script src="js/custom/historyReport.js"></script>
 <script src="js/custom/timepicker.js"></script>
 

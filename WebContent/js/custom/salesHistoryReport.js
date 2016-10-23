@@ -35,7 +35,7 @@ function salesHistoryReport(start, end, pageNo) {
                         titemnode = titemnode.replace("success", "");
                     }
                     titemnode = titemnode.replace("{Num}", item.Num);
-                    titemnode = titemnode.replace("{Date}", item.Date.substring(0,10));
+                    titemnode = titemnode.replace("{Date}", item.Date.substring(0, 10));
                     titemnode = titemnode.replace("{Area}", item.Area);
                     titemnode = titemnode.replace("{locksNum}", item.Locks);
                     titemnode = titemnode.replace("{stocksNum}", item.Stocks);
@@ -57,9 +57,11 @@ function salesHistoryReport(start, end, pageNo) {
                 });
 
             }
+            loading(1);
         },
         error: function () {
             hint("D", "Request failed!");
+            loading(1);
         }
     });
 }

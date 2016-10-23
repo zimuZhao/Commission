@@ -33,6 +33,17 @@
     <script src="js/lte-ie7.js"></script>
     <![endif]-->
 </head>
+<body>
+<!-- Preloader -->
+<div class="mask">
+    <div id="loading-box">
+        <div class="logo-pinner logo"></div>
+        <div class="ibox"></div>
+        <div class="iLoading"></div>
+    </div>
+</div>
+<!--/Preloader -->
+
 <!-- container section start -->
 <section id="container" class="">
 
@@ -263,13 +274,14 @@
 <!-- bootstrap -->
 <script src="js/bootstrap.min.js"></script>
 <!-- nice scroll -->
-<script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+<script src="js/jquery.nicescroll.js"></script>
 <!--custome script for all page-->
 <script src="js/scripts.js"></script>
 <!-- echarts -->
 <script src="js/echarts.js"></script>
 <script src="js/jquery.gritter.min.js"></script>
 <script src="js/custom/hint.js"></script>
+<script src="js/custom/loading.js"></script>
 <script src="js/custom/gunsmithIndex.js"></script>
 </body>
 </html>

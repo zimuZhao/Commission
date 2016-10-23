@@ -70,13 +70,14 @@ function salesCommission(start, end, pageNo) {
                         salesCommission(start, end, current);
                     }
                 });
-
             } else {
                 hint("W", "There is no data", "from " + start + " to" + end);
             }
+            loading(1);
         },
         error: function () {
             hint("D", "Request failed!");
+            loading(1);
         }
     });
 }
@@ -193,4 +194,4 @@ function getSalesCommission(comData, BCom, MCom, HCom) {
 window.onresize = function () {
     salesChart.resize();
     pieChart.resize();
-}
+};

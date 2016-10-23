@@ -33,10 +33,10 @@ function initUserList() {
                 userlist = userlist.replace("{Address}", item.address);
                 $("tbody").append(userlist);
             });
-            //loading(1);
+            loading(1);
         },
         error: function () {
-            //loading(1);
+            loading(1);
             hint("D", "Request failed!");
         }
     });

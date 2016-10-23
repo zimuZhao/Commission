@@ -7,7 +7,7 @@ function changeDateTime(start, end) {
     getWorldSales(start, end);
 }
 
-/** 暂时未绑实际数据
+/**
  * {"result":{"name":[],"data":[]},"status":true}
  * 世界地图 区域销售情况
  */
@@ -31,84 +31,73 @@ function getWorldSales(start, end) {
                         'code': 'AF',
                         'name': 'Afghanistan',
                         'value': data.result.data[0],
-                        'color': '#eea638'
+                        'color': '#FFFFCC'
                     }, {
                         'code': 'AU',
                         'name': 'Australia',
                         'value': data.result.data[1],
-                        'color': '#8aabb0'
+                        'color': '#FFFF33'
                     }, {
                         'code': 'BI',
                         'name': 'Burundi',
                         'value': data.result.data[2],
-                        'color': '#de4c4f'
+                        'color': '#FFFF99'
                     }, {
                         'code': 'CA',
                         'name': 'Canada',
                         'value': data.result.data[3],
-                        'color': '#a7a737'
+                        'color': '#FF9966'
                     }, {
                         'code': 'HK',
                         'name': 'Hong Kong, China',
                         'value': data.result.data[4],
-                        'color': '#eea638'
+                        'color': '#CCCC99'
                     }, {
                         'code': 'IE',
                         'name': 'Ireland',
                         'value': data.result.data[5],
-                        'color': '#d8854f'
+                        'color': '#FF9900'
                     }, {
                         'code': 'KR',
                         'name': 'Korea, Rep.',
                         'value': data.result.data[6],
-                        'color': '#eea638'
+                        'color': '#999933'
                     }, {
                         'code': 'LT',
                         'name': 'Lithuania',
                         'value': data.result.data[7],
-                        'color': '#d8854f'
+                        'color': '#CCCC33'
                     }, , {
                         'code': 'MR',
                         'name': 'Mauritania',
                         'value': data.result.data[8],
-                        'color': '#de4c4f'
+                        'color': '#999966'
                     }, {
                         'code': 'TJ',
                         'name': 'Tajikistan',
                         'value': data.result.data[9],
-                        'color': '#eea638'
+                        'color': '#FFCC00'
                     }, {
                         'code': 'GB',
                         'name': 'United Kingdom',
                         'value': data.result.data[10],
-                        'color': '#d8854f'
+                        'color': '#FFCC99'
                     }, {
                         'code': 'US',
                         'name': 'United States',
                         'value': data.result.data[11],
-                        'color': '#a7a737'
+                        'color': '#999966'
                     }, {
                         'code': 'ZW',
                         'name': 'Zimbabwe',
                         'value': data.result.data[12],
-                        'color': '#de4c4f'
+                        'color': '#FFFF99'
                     }, {
                         'code': 'JP',
                         'name': 'Japan',
                         'value': data.result.data[13],
-                        'color': '#eea638'
+                        'color': '#663333'
                     }];
-
-                    var max = -Infinity;
-                    var min = Infinity;
-                    mapData.forEach(function (itemOpt) {
-                        if (itemOpt.value > max) {
-                            max = itemOpt.value;
-                        }
-                        if (itemOpt.value < min) {
-                            min = itemOpt.value;
-                        }
-                    });
 
                     worldChart.setOption({
                         backgroundColor: '#404a59',
@@ -121,26 +110,23 @@ function getWorldSales(start, end) {
                             }
                         },
                         tooltip: {
-                            trigger: 'item'
+                            trigger: 'item',
+                            formatter : function (params) {
+                                var value = params.value;
+                                return params.name + ' : ' + value[2];
+                            }
                         },
                         visualMap: {
                             show: false,
                             min: 0,
-                            max: max,
                             inRange: {
-                                symbolSize: [6, 60]
+                                symbolSize: [6, 40]
                             }
                         },
                         geo: {
                             name: 'World Sales',
                             type: 'map',
                             map: 'world',
-                            //roam: true,
-                            label: {
-                                emphasis: {
-                                    show: false
-                                }
-                            },
                             itemStyle: {
                                 normal: {
                                     areaColor: '#323c48',
@@ -175,16 +161,50 @@ function getWorldSales(start, end) {
                                     }
                                 };
                             })
-                        }]
+                        },
+                            {
+                                name: 'Top 3',
+                                type: 'effectScatter',
+                                coordinateSystem: 'geo',
+                                data:mapData.map(function (itemOpt) {
+                                    return {
+                                        name: itemOpt.name,
+                                        value: [
+                                            latlong[itemOpt.code].longitude,
+                                            latlong[itemOpt.code].latitude,
+                                            itemOpt.value
+                                        ],
+                                    };
+                                }).slice(0, 3),
+                                symbolSize: function (val) {
+                                    return val[2] / 10;
+                                },
+
+                                label: {
+                                    normal: {
+                                        formatter: '{b}',
+                                        position: 'right',
+                                        show: true
+                                    }
+                                },
+                                itemStyle: {
+                                    normal: {
+                                        color: '#f4e925',
+                                        shadowBlur: 10,
+                                        shadowColor: '#333'
+                                    }
+                                },
+                                zlevel: 1
+                            }]
                     });
                 }
             } else {
                 hint("D", "The status return false!");
             }
-            //loading(8);
+            loading(2);
         },
         error: function (data) {
-            //loading(8);
+            loading(2);
             hint("D", "Request failed!");
         }
     });
@@ -249,10 +269,12 @@ function getHistory(start, end, pageNo) {
                 });
 
             } else {
-                hint("W", "There is no data", "from " + start + " to" + end);
+                hint("W", "There is no commission data", "from " + start + " to" + end);
             }
+            loading(2);
         },
         error: function () {
+            loading(2);
             hint("D", "Request failed!");
         }
     });

@@ -40,6 +40,17 @@
 </head>
 
 <body>
+
+<!-- Preloader -->
+<div class="mask">
+	<div id="loading-box">
+		<div class="logo-pinner logo"></div>
+		<div class="ibox"></div>
+		<div class="iLoading"></div>
+	</div>
+</div>
+<!--/Preloader -->
+
 <!-- container section start -->
 <section id="container" class="">
 	<!--header start-->
@@ -197,6 +208,7 @@
 <script src="js/jquery.table.js"></script>
 <script src="js/custom/hint.js"></script>
 <script src="js/custom/Validform.js"></script>
+<script src="js/custom/loading.js"></script>
 <script src="js/custom/salesHistoryReport.js"></script>
 <script src="js/custom/timepicker.js"></script>
 
