@@ -35,7 +35,7 @@ function salesHistoryReport(start, end, pageNo) {
                         titemnode = titemnode.replace("success", "");
                     }
                     titemnode = titemnode.replace("{Num}", item.Num);
-                    titemnode = titemnode.replace("{Date}", item.Date);
+                    titemnode = titemnode.replace("{Date}", item.Date.substring(0,10));
                     titemnode = titemnode.replace("{Area}", item.Area);
                     titemnode = titemnode.replace("{locksNum}", item.Locks);
                     titemnode = titemnode.replace("{stocksNum}", item.Stocks);

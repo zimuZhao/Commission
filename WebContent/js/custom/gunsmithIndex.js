@@ -65,7 +65,7 @@ function getSalesTrendLastMonth() {
                 if (data.result == "[]") {
                 } else {
                     //计算饼图每个L S B总和
-                    var Ltotal, Stotal, Btotal;
+                    var Ltotal = 0, Stotal = 0, Btotal = 0;
                     for (var i = 0; i < 30; i++) {
                         Ltotal += data.result.y[0][i];
                         Stotal += data.result.y[1][i];
@@ -254,9 +254,9 @@ function salesCommission() {
         cache: false,
         success: function (data) {
             if (data.status) {
-                if (data.result != "[]") {
+                if (data.result != "[]" || data.result != "") {
                     queryTopUser.html("");
-                    $.each(data.result.datas, function (index, item) {
+                    $.each(data.result.data, function (index, item) {
                         var titemnode = node;
                         if (index % 2 != 0) {
                             titemnode = titemnode.replace("success", "");

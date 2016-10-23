@@ -211,7 +211,7 @@
                             <header class="panel-heading"> Sales Ranking(Last Month) TOP 8</header>
 
                             <table class="table table-striped table-advance table-hover">
-                                <tbody>
+                                <thead>
                                 <tr>
                                     <th>Num</th>
                                     <th>Salesman</th>
@@ -221,7 +221,9 @@
                                     <th>TotalPrize</th>
                                     <th>Commission</th>
                                 </tr>
-                                <tr id="queryTopUser">
+                                </thead>
+                                <tbody id="queryTopUser">
+                                <tr>
                                     <td>{num}</td>
                                     <td>{Salesman}</td>
                                     <td>{LocksNum}</td>

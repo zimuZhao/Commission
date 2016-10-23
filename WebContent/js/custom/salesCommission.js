@@ -19,12 +19,12 @@ function salesCommission(start, end, pageNo) {
         data: {
             startTime: start,
             endTime: end,
-            pageNum: pageNo
+            pageNum: pageNo + 1
         },
         async: true,
         cache: false,
         success: function (data) {
-            if (data.data != "[]" || data.data != "") {
+            if (data.data != "") {
                 salesCommmission.html("");
 
                 //计算饼图需要数据
@@ -37,22 +37,22 @@ function salesCommission(start, end, pageNo) {
 
                 $.each(data.data, function (index, item) {
                     var titemnode = node;
-                    titemnode = titemnode.replace("{Date}", item.Date);
+                    titemnode = titemnode.replace("{Date}", item.Date.substring(0, 10));
                     titemnode = titemnode.replace("{Locks}", item.Locks);
                     titemnode = titemnode.replace("{Stocks}", item.Stocks);
                     titemnode = titemnode.replace("{Barrels}", item.Barrels);
                     titemnode = titemnode.replace("{Sale}", item.Sale);
                     titemnode = titemnode.replace("{basicCommission}", item.basic);
                     titemnode = titemnode.replace("{midCommission}", item.midCommission);
-                    titemnode = titemnode.replace("{highCommission}", item.highCommission);
+                    titemnode = titemnode.replace("{highCommission}", item.highCommision);
                     titemnode = titemnode.replace("{totalCommission}", item.totalCommission);
                     Lnum += item.Locks;
                     Snum += item.Stocks;
                     Bnum += item.Barrels;
-                    comData[index] = item.Date;
-                    bCom[index] = item.basicCommission;
+                    comData[index] = item.Date.substring(0, 10);
+                    bCom[index] = item.basic;
                     mCom[index] = item.midCommission;
-                    hCom[index] = item.highCommission;
+                    hCom[index] = item.highCommision;
                     salesCommmission.append(titemnode);
                 });
                 getSalesProportion(Lnum, Snum, Bnum);
@@ -67,12 +67,12 @@ function salesCommission(start, end, pageNo) {
                     currentPage: pageNo,
                     jumpTo: function (current) {
                         pagenum = current;
-                        //updateVisitRank(start, end, rank, current);
+                        salesCommission(start, end, current);
                     }
                 });
 
             } else {
-                hint("D", "There is no data!");
+                hint("W", "There is no data", "from " + start + " to" + end);
             }
         },
         error: function () {

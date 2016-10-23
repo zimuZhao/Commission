@@ -3,7 +3,7 @@ function changeDateTime(start, end) {
     //转换为YYYY-MM的格式
     //var startTime = start.substring(0, 6);
     //var endTime = end.substring(0, 6);
-    getHistory(start, end);
+    getHistory(start, end, 0);
     getWorldSales(start, end);
 }
 
@@ -30,413 +30,73 @@ function getWorldSales(start, end) {
                     var mapData = [{
                         'code': 'AF',
                         'name': 'Afghanistan',
-                        'value': 32358260,
+                        'value': data.result.data[0],
                         'color': '#eea638'
                     }, {
                         'code': 'AU',
                         'name': 'Australia',
-                        'value': 22605732,
+                        'value': data.result.data[1],
                         'color': '#8aabb0'
-                    }, {
-                        'code': 'AT',
-                        'name': 'Austria',
-                        'value': 8413429,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'AZ',
-                        'name': 'Azerbaijan',
-                        'value': 9306023,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'BH',
-                        'name': 'Bahrain',
-                        'value': 1323535,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'BD',
-                        'name': 'Bangladesh',
-                        'value': 150493658,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'BY',
-                        'name': 'Belarus',
-                        'value': 9559441,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'BE',
-                        'name': 'Belgium',
-                        'value': 10754056,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'BJ',
-                        'name': 'Benin',
-                        'value': 9099922,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'BT',
-                        'name': 'Bhutan',
-                        'value': 738267,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'BO',
-                        'name': 'Bolivia',
-                        'value': 10088108,
-                        'color': '#86a965'
-                    }, {
-                        'code': 'BA',
-                        'name': 'Bosnia and Herzegovina',
-                        'value': 3752228,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'BW',
-                        'name': 'Botswana',
-                        'value': 2030738,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'BR',
-                        'name': 'Brazil',
-                        'value': 196655014,
-                        'color': '#86a965'
-                    }, {
-                        'code': 'BN',
-                        'name': 'Brunei',
-                        'value': 405938,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'BG',
-                        'name': 'Bulgaria',
-                        'value': 7446135,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'BF',
-                        'name': 'Burkina Faso',
-                        'value': 16967845,
-                        'color': '#de4c4f'
                     }, {
                         'code': 'BI',
                         'name': 'Burundi',
-                        'value': 8575172,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'KH',
-                        'name': 'Cambodia',
-                        'value': 14305183,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'CM',
-                        'name': 'Cameroon',
-                        'value': 20030362,
+                        'value': data.result.data[2],
                         'color': '#de4c4f'
                     }, {
                         'code': 'CA',
                         'name': 'Canada',
-                        'value': 34349561,
-                        'color': '#a7a737'
-                    }, {
-                        'code': 'CV',
-                        'name': 'Cape Verde',
-                        'value': 500585,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'CF',
-                        'name': 'Central African Rep.',
-                        'value': 4486837,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'TD',
-                        'name': 'Chad',
-                        'value': 11525496,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'CL',
-                        'name': 'Chile',
-                        'value': 17269525,
-                        'color': '#86a965'
-                    }, {
-                        'code': 'CN',
-                        'name': 'China',
-                        'value': 1347565324,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'CR',
-                        'name': 'Costa Rica',
-                        'value': 4726575,
-                        'color': '#a7a737'
-                    }, {
-                        'code': 'CI',
-                        'name': 'Cote d\'Ivoire',
-                        'value': 20152894,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'HR',
-                        'name': 'Croatia',
-                        'value': 4395560,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'GR',
-                        'name': 'Greece',
-                        'value': 11390031,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'GT',
-                        'name': 'Guatemala',
-                        'value': 14757316,
-                        'color': '#a7a737'
-                    }, {
-                        'code': 'GN',
-                        'name': 'Guinea',
-                        'value': 10221808,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'GW',
-                        'name': 'Guinea-Bissau',
-                        'value': 1547061,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'GY',
-                        'name': 'Guyana',
-                        'value': 756040,
-                        'color': '#86a965'
-                    }, {
-                        'code': 'HT',
-                        'name': 'Haiti',
-                        'value': 10123787,
-                        'color': '#a7a737'
-                    }, {
-                        'code': 'HN',
-                        'name': 'Honduras',
-                        'value': 7754687,
+                        'value': data.result.data[3],
                         'color': '#a7a737'
                     }, {
                         'code': 'HK',
                         'name': 'Hong Kong, China',
-                        'value': 7122187,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'HU',
-                        'name': 'Hungary',
-                        'value': 9966116,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'IS',
-                        'name': 'Iceland',
-                        'value': 324366,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'IN',
-                        'name': 'India',
-                        'value': 1241491960,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'ID',
-                        'name': 'Indonesia',
-                        'value': 242325638,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'IR',
-                        'name': 'Iran',
-                        'value': 74798599,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'IQ',
-                        'name': 'Iraq',
-                        'value': 32664942,
+                        'value': data.result.data[4],
                         'color': '#eea638'
                     }, {
                         'code': 'IE',
                         'name': 'Ireland',
-                        'value': 4525802,
+                        'value': data.result.data[5],
                         'color': '#d8854f'
-                    }, {
-                        'code': 'IL',
-                        'name': 'Israel',
-                        'value': 7562194,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'IT',
-                        'name': 'Italy',
-                        'value': 60788694,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'JM',
-                        'name': 'Jamaica',
-                        'value': 2751273,
-                        'color': '#a7a737'
-                    }, {
-                        'code': 'JP',
-                        'name': 'Japan',
-                        'value': 126497241,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'JO',
-                        'name': 'Jordan',
-                        'value': 6330169,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'KZ',
-                        'name': 'Kazakhstan',
-                        'value': 16206750,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'KE',
-                        'name': 'Kenya',
-                        'value': 41609728,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'KP',
-                        'name': 'Korea, Dem. Rep.',
-                        'value': 24451285,
-                        'color': '#eea638'
                     }, {
                         'code': 'KR',
                         'name': 'Korea, Rep.',
-                        'value': 48391343,
+                        'value': data.result.data[6],
                         'color': '#eea638'
-                    }, {
-                        'code': 'KW',
-                        'name': 'Kuwait',
-                        'value': 2818042,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'KG',
-                        'name': 'Kyrgyzstan',
-                        'value': 5392580,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'LA',
-                        'name': 'Laos',
-                        'value': 6288037,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'LV',
-                        'name': 'Latvia',
-                        'value': 2243142,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'LB',
-                        'name': 'Lebanon',
-                        'value': 4259405,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'LS',
-                        'name': 'Lesotho',
-                        'value': 2193843,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'LR',
-                        'name': 'Liberia',
-                        'value': 4128572,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'LY',
-                        'name': 'Libya',
-                        'value': 6422772,
-                        'color': '#de4c4f'
                     }, {
                         'code': 'LT',
                         'name': 'Lithuania',
-                        'value': 3307481,
+                        'value': data.result.data[7],
                         'color': '#d8854f'
-                    }, {
-                        'code': 'LU',
-                        'name': 'Luxembourg',
-                        'value': 515941,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'MK',
-                        'name': 'Macedonia, FYR',
-                        'value': 2063893,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'MG',
-                        'name': 'Madagascar',
-                        'value': 21315135,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'MW',
-                        'name': 'Malawi',
-                        'value': 15380888,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'MY',
-                        'name': 'Malaysia',
-                        'value': 28859154,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'ML',
-                        'name': 'Mali',
-                        'value': 15839538,
-                        'color': '#de4c4f'
-                    }, {
+                    }, , {
                         'code': 'MR',
                         'name': 'Mauritania',
-                        'value': 3541540,
+                        'value': data.result.data[8],
                         'color': '#de4c4f'
-                    }, {
-                        'code': 'MU',
-                        'name': 'Mauritius',
-                        'value': 1306593,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'NO',
-                        'name': 'Norway',
-                        'value': 4924848,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'OM',
-                        'name': 'Oman',
-                        'value': 2846145,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'SN',
-                        'name': 'Senegal',
-                        'value': 12767556,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'RS',
-                        'name': 'Serbia',
-                        'value': 9853969,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'ES',
-                        'name': 'Spain',
-                        'value': 46454895,
-                        'color': '#d8854f'
-                    }, {
-                        'code': 'LK',
-                        'name': 'Sri Lanka',
-                        'value': 21045394,
-                        'color': '#eea638'
-                    }, {
-                        'code': 'SD',
-                        'name': 'Sudan',
-                        'value': 34735288,
-                        'color': '#de4c4f'
-                    }, {
-                        'code': 'SR',
-                        'name': 'Suriname',
-                        'value': 529419,
-                        'color': '#86a965'
                     }, {
                         'code': 'TJ',
                         'name': 'Tajikistan',
-                        'value': 6976958,
+                        'value': data.result.data[9],
                         'color': '#eea638'
                     }, {
                         'code': 'GB',
                         'name': 'United Kingdom',
-                        'value': 62417431,
+                        'value': data.result.data[10],
                         'color': '#d8854f'
                     }, {
                         'code': 'US',
                         'name': 'United States',
-                        'value': 313085380,
+                        'value': data.result.data[11],
                         'color': '#a7a737'
                     }, {
                         'code': 'ZW',
                         'name': 'Zimbabwe',
-                        'value': 12754378,
+                        'value': data.result.data[12],
                         'color': '#de4c4f'
+                    }, {
+                        'code': 'JP',
+                        'name': 'Japan',
+                        'value': data.result.data[13],
+                        'color': '#eea638'
                     }];
 
                     var max = -Infinity;
@@ -547,7 +207,7 @@ function getHistory(start, end, pageNo) {
         data: {
             startTime: start,
             endTime: end,
-            pageNo: pageNo
+            pageNo: pageNo + 1
         },
         async: true,
         cache: false,
@@ -563,7 +223,7 @@ function getHistory(start, end, pageNo) {
                         titemnode = titemnode.replace("success", "");
                     }
                     titemnode = titemnode.replace("{num}", item.Num);
-                    titemnode = titemnode.replace("{date}", item.Date);
+                    titemnode = titemnode.replace("{date}", item.Date.substring(0, 10));
                     titemnode = titemnode.replace("{salesman}", item.Saleman);
                     titemnode = titemnode.replace("{locks}", item.Locks);
                     titemnode = titemnode.replace("{stocks}", item.Stocks);
@@ -571,7 +231,7 @@ function getHistory(start, end, pageNo) {
                     titemnode = titemnode.replace("{sale}", item.Sale);
                     titemnode = titemnode.replace("{basicCommission}", item.basic);
                     titemnode = titemnode.replace("{midCommission}", item.midCommission);
-                    titemnode = titemnode.replace("{highCommission}", item.highCommission);
+                    titemnode = titemnode.replace("{highCommission}", item.highCommision);
                     titemnode = titemnode.replace("{totalCommission}", item.totalCommission);
 
                     salesHistory.append(titemnode);
@@ -579,17 +239,17 @@ function getHistory(start, end, pageNo) {
                 salesHistory.removeClass("hidden");
 
                 pagingNumber = pageNo;
-
                 $("#paging").table({
                     pageNum: data.totalPages,
                     currentPage: pageNo,
                     jumpTo: function (current) {
                         pagenum = current;
+                        getHistory(start, end, current);
                     }
                 });
 
             } else {
-                hint("D", "There is no data!");
+                hint("W", "There is no data", "from " + start + " to" + end);
             }
         },
         error: function () {

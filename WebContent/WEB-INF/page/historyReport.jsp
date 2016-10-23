@@ -122,8 +122,7 @@
 
                 <div class="col-md-4 col-md-offset-8 col-xs-12 m-b-20">
                     <span>Please enter the query time :</span>
-                    <input id="dataRange" class="pull-right form-control" type="text" name="daterange"
-                           value="16/10/2016 - 17/10/2016">
+                    <input id="date-range-picker" class="pull-right form-control" type="text" name="date-range-picker">
                 </div>
 
             </div>
@@ -133,7 +132,7 @@
 
                     <section class="panel">
                         <table class="table table-striped table-advance table-hover">
-                            <tbody>
+                            <thead>
                             <tr>
                                 <th> Num</th>
                                 <th> Date</th>
@@ -142,11 +141,14 @@
                                 <th> Stocks</th>
                                 <th> Barrels</th>
                                 <th> Sale</th>
+                                <th> basicCommission</th>
                                 <th> midCommission</th>
                                 <th> highCommission</th>
                                 <th> totalCommission</th>
                             </tr>
-                            <tr id="salesHistory" class="hidden">
+                            </thead>
+                            <tbody id="salesHistory" class="hidden">
+                            <tr>
                                 <td>{num}</td>
                                 <td>{date}</td>
                                 <td>{salesman}</td>
@@ -215,9 +217,9 @@
 <script src="js/jquery.nicescroll.js"></script>
 <!--custome script for all page-->
 <script src="js/scripts.js"></script>
+
 <script src="js/moment.min.js"></script>
 <script src="js/daterangepicker.js"></script>
-
 <script src="js/echarts.js"></script>
 <script src="js/world.js"></script>
 <script src="js/jquery.gritter.min.js"></script>

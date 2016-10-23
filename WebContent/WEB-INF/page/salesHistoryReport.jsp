@@ -137,7 +137,7 @@
 							<tr>
 								<th> Num</th>
 								<th> Date</th>
-								<th> Area</th>
+								<%--<th> Area</th>--%>
 								<th> locksNum</th>
 								<th> stocksNum</th>
 								<th> barrelsNum</th>
@@ -147,7 +147,7 @@
 							<tr>
 								<td>{Num}</td>
 								<td>{Date}</td>
-								<td>{Area}</td>
+								<%--<td>{Area}</td>--%>
 								<td>{locksNum}</td>
 								<td>{stocksNum}</td>
 								<td>{barrelsNum}</td>
@@ -187,7 +187,7 @@
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <!-- nicescroll -->
-<script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+<script src="js/jquery.nicescroll.js"></script>
 <!--custome script for all page-->
 <script src="js/scripts.js"></script>
 
