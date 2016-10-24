@@ -18,15 +18,15 @@
 	<title>My Profile</title>
 
 	<!-- Bootstrap CSS -->
-	<link href="../../css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<!-- bootstrap theme -->
-	<link href="../../css/bootstrap-theme.css" rel="stylesheet">
+	<link href="css/bootstrap-theme.css" rel="stylesheet">
 	<!-- font icon -->
-	<link href="../../css/elegant-icons-style.css" rel="stylesheet"/>
+	<link href="css/elegant-icons-style.css" rel="stylesheet"/>
 	<!-- hint style -->
-	<link href="../../css/jquery.gritter.css" rel="stylesheet">
+	<link href="css/jquery.gritter.css" rel="stylesheet">
 	<!-- Custom styles -->
-	<link href="../../css/style.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
 
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
@@ -193,15 +193,15 @@
 <!-- container section end -->
 
 <!-- javascripts -->
-<script src="../../js/jquery.js"></script>
-<script src="../../js/bootstrap.min.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <!-- nice scroll -->
-<script src="../../js/jquery.nicescroll.js" type="text/javascript"></script>
+<script src="js/jquery.nicescroll.js" type="text/javascript"></script>
 
 <!-- custome script for all page -->
-<script src="../../js/scripts.js"></script>
+<script src="js/scripts.js"></script>
 
-<script src="../../js/jquery.gritter.min.js"></script>
+<script src="js/jquery.gritter.min.js"></script>
 <script src="js/custom/hint.js"></script>
 <script src="js/custom/Validform.js"></script>
 <script src="js/custom/salesMyProfile.js"></script>
