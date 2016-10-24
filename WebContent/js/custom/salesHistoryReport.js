@@ -1,28 +1,21 @@
-//$('#dataRange').daterangepicker({
-//    "startDate": "10/10/2016",
-//    "endDate": "10/16/2016"
-//}, function (start, end, label) {
-//    console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
-//});
-
 function changeDateTime(start, end) {
     salesHistoryReport(start, end, 0);
 }
 
 var pagingNumber;
-/** url?selectSalesRecordByPage return对应属性?
+/**
+ * {"data":[],"totalPages":1}
  * 销售历史记录
- * @param siteId 网站id
- * @param start  开始时间 (YYYY-MM-DD")
- * @param end    结束时间 ("YYYY-MM-DD")
- * @param pageNo   当前页（从0开始）
+ * @param startTime  开始时间 (YYYY-MM-DD")
+ * @param endTime    结束时间 ("YYYY-MM-DD")
+ * @param pageNum   当前页（从0开始）
  */
 var salesHistory = $("#salesHistory");
 var node = salesHistory.html();
 function salesHistoryReport(start, end, pageNo) {
     $.ajax({
         type: "POST",
-        url: "",
+        url: "selectSalesRecordByPage",
         dataType: "json",
         data: {
             startTime: start,
@@ -32,45 +25,43 @@ function salesHistoryReport(start, end, pageNo) {
         async: true,
         cache: false,
         success: function (data) {
-            if (data.status) {
-                if (data.result != "[]") {
-                    salesHistory.html("");
+            if (data.data != "[]" || data.data != "") {
+                salesHistory.html("");
 
-                    var num = 0;//序号
-                    $.each(data.result.datas, function (index, item) {
-                        var titemnode = node;
-                        if (index % 2 != 0) {
-                            titemnode = titemnode.replace("success", "");
-                        }
-                        titemnode = titemnode.replace("{Num}", item.id);
-                        titemnode = titemnode.replace("{Date}", num);
-                        titemnode = titemnode.replace("{Area}", item.name);
-                        titemnode = titemnode.replace("{locksNum}", item.pv);
-                        titemnode = titemnode.replace("{stocksNum}", item.uv);
-                        titemnode = titemnode.replace("{barrelsNum}", item.vt);
-                        salesHistory.append(titemnode);
-                    });
-                    //让tbody显示
-                    salesHistory.removeClass("hidden");
+                var num = 0;//序号
+                $.each(data.data, function (index, item) {
+                    var titemnode = node;
+                    if (index % 2 != 0) {
+                        titemnode = titemnode.replace("success", "");
+                    }
+                    titemnode = titemnode.replace("{Num}", item.Num);
+                    titemnode = titemnode.replace("{Date}", item.Date.substring(0, 10));
+                    titemnode = titemnode.replace("{Area}", item.Area);
+                    titemnode = titemnode.replace("{locksNum}", item.Locks);
+                    titemnode = titemnode.replace("{stocksNum}", item.Stocks);
+                    titemnode = titemnode.replace("{barrelsNum}", item.Barrels);
+                    salesHistory.append(titemnode);
+                });
+                //让tbody显示
+                salesHistory.removeClass("hidden");
 
-                    pagingNumber = pageNo;
+                pagingNumber = pageNo;
 
-                    $("#paging").table({
-                        pageNum: data.result.totalPage,
-                        currentPage: pageNo,
-                        jumpTo: function (current) {
-                            pagenum = current;
-                            //updateVisitRank(start, end, rank, current);
-                        }
-                    });
+                $("#paging").table({
+                    pageNum: data.totalPages,
+                    currentPage: pageNo,
+                    jumpTo: function (current) {
+                        pagenum = current;
+                        //updateVisitRank(start, end, rank, current);
+                    }
+                });
 
-                }
-            } else {
-                hint("D", data.result);
             }
+            loading(1);
         },
-        error: function (data) {
-            hint("D", data.result);
+        error: function () {
+            hint("D", "Request failed!");
+            loading(1);
         }
     });
 }

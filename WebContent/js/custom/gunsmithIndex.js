@@ -14,28 +14,28 @@ function getFour() {
                 if (data.result == "[]") {
                 } else {
                     //Locks
-                    $('#LPrice').html(data.result.data[0].price);
+                    $('#LPrice').html("$" + data.result.data[0].price);
                     $('#LNum').html(data.result.data[0].num);
 
                     //Stocks
-                    $('#SPrice').html(data.result.data[1].price);
+                    $('#SPrice').html("$" + data.result.data[1].price);
                     $('#SNum').html(data.result.data[1].num);
 
                     //Barrels
-                    $('#BPrice').html(data.result.data[2].price);
+                    $('#BPrice').html("$" + data.result.data[2].price);
                     $('#BNum').html(data.result.data[2].num);
 
                     //Today
-                    $('#ToPrice').html(data.result.total.price);
-                    $('#LSPrice').html("LastWeek:" + data.result.total.lastWeek);
-                    $('#LMPrice').html("LastMoon:" + data.result.total.lastMonth);
+                    $('#ToPrice').html("$" + data.result.total.price);
+                    $('#LSPrice').html("LastWeek: $" + data.result.total.lastWeek);
+                    $('#LMPrice').html("LastMoon: $" + data.result.total.lastMonth);
 
                 }
             }
-            //loading(8);
+            loading(4);
         },
         error: function (data) {
-            //loading(8);
+            loading(4);
             hint("D", "Access to today's sales data failed!");
         }
     });
@@ -65,7 +65,7 @@ function getSalesTrendLastMonth() {
                 if (data.result == "[]") {
                 } else {
                     //计算饼图每个L S B总和
-                    var Ltotal, Stotal, Btotal;
+                    var Ltotal = 0, Stotal = 0, Btotal = 0;
                     for (var i = 0; i < 30; i++) {
                         Ltotal += data.result.y[0][i];
                         Stotal += data.result.y[1][i];
@@ -127,10 +127,10 @@ function getSalesTrendLastMonth() {
             } else {
                 hint("D", "data.result is empty");
             }
-            //loading(8);
+            loading(4);
         },
-        error: function (data) {
-            //loading(8);
+        error: function () {
+            loading(4);
             hint("D", "Access to lastMonthInfo failed!");
         }
     });
@@ -177,7 +177,7 @@ function getSalesProportionLastMonth(Ltotal, Stotal, Btotal) {
     });
 }
 
-/** url调用的后台接口有误
+/**
  * 柱状图 地区销售情况(上月) TOP 10
  */
 function getSalesAreaLastMonth() {
@@ -231,10 +231,10 @@ function getSalesAreaLastMonth() {
             } else {
                 hint("D", "data.result is empty!");
             }
-            //loading(8);
+            loading(4);
         },
         error: function (data) {
-            //loading(8);
+            loading(4);
             hint("D", "Access to queryTopTownList failed!");
         }
     });
@@ -254,9 +254,9 @@ function salesCommission() {
         cache: false,
         success: function (data) {
             if (data.status) {
-                if (data.result != "[]") {
+                if (data.result != "[]" || data.result != "") {
                     queryTopUser.html("");
-                    $.each(data.result.datas, function (index, item) {
+                    $.each(data.result.data, function (index, item) {
                         var titemnode = node;
                         if (index % 2 != 0) {
                             titemnode = titemnode.replace("success", "");
@@ -274,11 +274,13 @@ function salesCommission() {
                     queryTopUser.removeClass("hidden");
                 }
             } else {
-                hint("D", data.result);
+                hint("D", "The data.status return false!");
             }
+            loading(4);
         },
-        error: function (data) {
-            hint("D", data.result);
+        error: function () {
+            loading(4);
+            hint("D", "Request failed!");
         }
     });
 }
