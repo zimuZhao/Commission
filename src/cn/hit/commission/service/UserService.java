@@ -181,6 +181,9 @@ public class UserService implements IUserService {
 		float totalNumDollar, totalCommission;
 		totalNumDollar = totalCommission = 0.0f;
 		locksnum = stocksnum = barrelsnum = 0;
+		
+		float basicCommission, midCommission, highCommission;
+		basicCommission = midCommission = highCommission = 0.0f;
 
 		for (int i = 0; i < saleList.size(); i++) {
 			Salesrecord record = saleList.get(i);
@@ -193,19 +196,28 @@ public class UserService implements IUserService {
 		if (locksnum > 0 && stocksnum > 0 && barrelsnum > 0) {
 			totalNumDollar = locksnum * 45 + stocksnum * 30 + barrelsnum * 25;
 		}
-
+		
 		if (totalNumDollar <= 1000) {
 			totalCommission = totalNumDollar * 0.1f;
+			basicCommission = totalCommission;
 		} else if (totalNumDollar > 1000 && totalNumDollar <= 1800) {
 			totalCommission = 100 + (totalNumDollar - 1000) * 0.15f;
+			basicCommission = 100;
+			midCommission = totalCommission - basicCommission;
 		} else if (totalNumDollar > 1800) {
 			totalCommission = 100 + 120 + (totalNumDollar - 1800) * 0.2f;
+			basicCommission = 100;
+			midCommission = 120;
+			highCommission = totalCommission - 220;
 		}
 
 		commission.setLocksum(locksnum);
 		commission.setStocksum(stocksnum);
 		commission.setBarrelsum(barrelsnum);
 		commission.setTotalCommission(totalCommission);
+		commission.setFirstcom(basicCommission);
+		commission.setSecondcom(midCommission);
+		commission.setThirdcom(highCommission);
 		commission.setTotalPrice(totalNumDollar);
 		commission.setSalesmanID(man);
 		commission.setSalesDate(date);
